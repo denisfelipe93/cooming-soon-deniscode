@@ -39,7 +39,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- NAVBAR -->
   <header class="relative">
     <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
       <a href="/" class="text-xl font-semibold tracking-tight text-zinc-100"> {{ dict.brand }} </a>
