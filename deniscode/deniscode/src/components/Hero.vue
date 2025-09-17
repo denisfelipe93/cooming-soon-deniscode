@@ -11,7 +11,7 @@ const messages = {
       subtitle: 'Got an idea? Talk to us—let’s take it from paper to the web.'
     },
     ctaHero: 'Start building',
-    ctaNav:  'Contact',
+    ctaNav: 'Contact',
     ariaToggleLang: 'Switch language to Portuguese'
   },
   pt: {
@@ -22,7 +22,7 @@ const messages = {
       subtitle: 'Tem uma ideia? Fale com a gente para sair do papel e ganhar vida no mundo online.'
     },
     ctaHero: 'Comece agora',
-    ctaNav:  'Contato',
+    ctaNav: 'Contato',
     ariaToggleLang: 'Mudar idioma para inglês'
   }
 }
@@ -97,49 +97,49 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- LAPTOP: alinhado à direita, mostrando só a metade ESQUERDA -->
+    <!-- VIEWPORT do laptop: à direita, mostra a metade ESQUERDA -->
     <div class="laptop">
-      <!-- light -->
       <img src="@/assets/laptop-lightmode.png" alt="" class="laptop-img dark:hidden" loading="eager" decoding="async" />
-      <!-- dark -->
-      <img src="@/assets/laptop-darkmode.png" alt="" class="laptop-img hidden dark:block" loading="eager" decoding="async" />
+      <img src="@/assets/laptop-darkmode.png"  alt="" class="laptop-img hidden dark:block" loading="eager" decoding="async" />
     </div>
   </section>
 </template>
 
 <style scoped>
-/* VIEWPORT: recorte do laptop encostado à direita */
+/* Viewport colado à direita (recorta o que sobra) */
 .laptop{
   position: absolute;
   right: 0;
-  top: 32vh;                     /* ↑ suba/abaixe (28–36vh) */
+  top: 15vh;                   /* ↑ sobe/desce (28–36vh) */
   z-index: 10;
   pointer-events: none;
   user-select: none;
 
-  width: min(52vw, 980px);       /* ↑ controla “quanto” aparece (metade aprox) */
-  height: min(88vh, 820px);      /* ↑ altura do viewport */
-  overflow: hidden;
+  /* largura controla o “quanto” aparece (metade aprox) */
+  width: min(58vw, 1200px);     /* antes 52vw/1000px */
 
-  border-top-left-radius: 1.5rem;
-  border-bottom-left-radius: 1.5rem;
-  box-shadow: 0 25px 60px -20px rgba(0,0,0,.45);
+  /* altura generosa p/ caber o laptop inteiro */
+  height: min(110dvh, 1100px);   /*antes min(95dvh, 900px) */
+
+  overflow: hidden;
+  border-top-left-radius:0; /* 1.5rem;*/
+  border-bottom-left-radius: 0; /* 1.5rem;*/
+  box-shadow: none;/*0 25px 60px -20px rgba(0,0,0,.45);*/
 }
 
-/* IMG: ancorada à direita, deslocada -50% ⇒ a metade ESQUERDA entra no viewport */
+/* IMG ancorada na direita; agora cabendo pela ALTURA do viewport */
 .laptop-img{
   position: absolute;
   top: 50%;
   right: 0;
-  transform: translate(-50%, -50%); /* <- coração do truque */
-  width: 2200px;                    /* ↑ tamanho do laptop (2000–2600) */
-  height: auto;
+  transform: translate(50%, -50%);  /* → traz a metade ESQUERDA pra dentro */
+  height: 130%;                      /* ✅ encaixa pela ALTURA */
+  width: auto;                       /* ✅ respeita proporção */
   max-width: none;
-  /* ⚠️ NÃO defina display aqui (deixe o Tailwind controlar 'hidden') */
+  /* NÃO defina display aqui (deixe o Tailwind controlar hidden/dark:hidden) */
 }
 
-/* responsivo opcional */
-@media (min-width: 768px){ .laptop{ top: 34vh; } }
-@media (min-width:1024px){ .laptop{ top: 36vh; } }
+/* ajustes responsivos finos (opcional) */
+/* @media (min-width: 768px){ .laptop{ top: 15vh; } }
+@media (min-width:1024px){ .laptop{ top: 15vh; } } */
 </style>
-
