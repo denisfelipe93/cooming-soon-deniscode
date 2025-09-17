@@ -1,1 +1,5 @@
 @import "tailwindcss";
+@config "../tailwind.config.cjs";
+
+/* habilita o variant `dark:` por classe .dark no v4 */
+@custom-variant dark (&:where(.dark, .dark *));

@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class',
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  // Em v4 não é obrigatório ter "content", mas ok manter.
+  darkMode: 'class', // usaremos classe .dark no <html>
   theme: {
     extend: {
       keyframes: {
