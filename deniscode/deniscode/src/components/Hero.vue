@@ -108,34 +108,38 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* bloco absoluto à direita; deixa “vazar” para a próxima seção */
+/* VIEWPORT: recorte do laptop encostado à direita */
 .laptop{
   position: absolute;
   right: 0;
-  top: 32vh;               /* ↑ ajusta vertical: 28–36vh */
+  top: 32vh;                     /* ↑ suba/abaixe (28–36vh) */
   z-index: 10;
   pointer-events: none;
   user-select: none;
-}
 
-/* img gigante; recorte pela METADE DIREITA -> sobra a ESQUERDA */
-.laptop-img{
-  position: relative;      /* não precisa relative ao container: é uma figura solta */
-  display: block;
-  width: 2200px;           /* ↑ tamanho do laptop (2000–2600px) */
-  max-width: none;
-  height: auto;
+  width: min(52vw, 980px);       /* ↑ controla “quanto” aparece (metade aprox) */
+  height: min(88vh, 820px);      /* ↑ altura do viewport */
+  overflow: hidden;
 
-  /* recorta 50% do lado direito (top | right | bottom | left) */
-  clip-path: inset(0 50% 0 0);
-
-  /* embelezos opcionais */
   border-top-left-radius: 1.5rem;
   border-bottom-left-radius: 1.5rem;
-  filter: drop-shadow(0 25px 60px rgba(0,0,0,0.35));
+  box-shadow: 0 25px 60px -20px rgba(0,0,0,.45);
 }
 
-/* responsivo: posicionamento vertical um tiquinho mais baixo em telas maiores */
+/* IMG: ancorada à direita, deslocada -50% ⇒ a metade ESQUERDA entra no viewport */
+.laptop-img{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%); /* <- coração do truque */
+  width: 2200px;                    /* ↑ tamanho do laptop (2000–2600) */
+  height: auto;
+  max-width: none;
+  /* ⚠️ NÃO defina display aqui (deixe o Tailwind controlar 'hidden') */
+}
+
+/* responsivo opcional */
 @media (min-width: 768px){ .laptop{ top: 34vh; } }
 @media (min-width:1024px){ .laptop{ top: 36vh; } }
 </style>
+
