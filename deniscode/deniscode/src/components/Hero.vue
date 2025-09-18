@@ -132,7 +132,7 @@ onMounted(() => {
   position: absolute;
   top: 50%;
   right: 0;
-  transform: translate(50%, -50%);  /* → traz a metade ESQUERDA pra dentro */
+  transform: translate(40%, -50%);  /* → traz a metade ESQUERDA pra dentro */
   height: 130%;                      /* ✅ encaixa pela ALTURA */
   width: auto;                       /* ✅ respeita proporção */
   max-width: none;
