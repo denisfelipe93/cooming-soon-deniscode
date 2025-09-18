@@ -46,7 +46,7 @@ const setLight = () => { if ( isDark.value) toggle() }
   --gap-r: -1px;             /* se quiser encostar totalmente à direita, use 0px */
 
   /* knob no LIGHT (círculo) */
-  --knob-light: 18px;        /* se reduzir o trilho, use 14px ou 15px */
+  --knob-light: 14px;        /* se reduzir o trilho, use 14px ou 15px */
 
   /* CORES (as que você escolheu) */
   --trackL: #eef0f3;         /* contorno claro no dark */
