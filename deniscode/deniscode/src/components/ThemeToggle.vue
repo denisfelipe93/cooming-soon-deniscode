@@ -33,8 +33,8 @@ const setLight = () => { if ( isDark.value) toggle() }
 /* ====== Variáveis (você pode ajustar tamanhos aqui) ====== */
 .theme-switch{
   /* trilho */
-  --track-w: 42px;          /* se quiser menor: 36px ou 35px */
-  --track-h: 23px;          /* ex.: 20px */
+  --track-w: 36px;          /* se quiser menor: 36px ou 35px */
+  --track-h: 20px;          /* ex.: 20px */
   --track-b: 2px;
 
   /* miolo do trilho */
