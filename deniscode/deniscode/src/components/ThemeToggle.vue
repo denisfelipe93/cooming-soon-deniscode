@@ -1,12 +1,16 @@
 <script setup>
 import { computed } from 'vue'
 import { useTheme } from '@/composables/useTheme.js'
+import { useLocale } from '@/composables/useLocale.js'
 
 const { isDark, toggle } = useTheme()
+const { locale } = useLocale()
 
-const ariaTitle = computed(() =>
-  isDark.value ? 'Switch to light mode' : 'Switch to dark mode'
-)
+const ariaTitle = computed(() => {
+  const pt = isDark.value ? 'Mudar para tema claro' : 'Mudar para tema escuro'
+  const en = isDark.value ? 'Switch to light mode' : 'Switch to dark mode'
+  return locale.value === 'pt' ? pt : en
+})
 </script>
 
 <template>
@@ -41,15 +45,16 @@ const ariaTitle = computed(() =>
 </template>
 
 <style scoped>
+/* ===== base ===== */
 .theme-btn{
   --size: 32px;
 
-  /* valores padrão (serão sobrescritos por estado) */
+  /* estado base (LIGHT/DARK) → ajustados por data-dark abaixo */
   --fg: #1f2937;      /* cor dos ícones */
-  --bg: transparent;  /* fundo padrão */
-  --bor: #d3d6dc;     /* borda padrão */
+  --bg: transparent;  /* fundo do botão */
+  --bor: #d3d6dc;     /* borda */
 
-  /* valores de PREVIEW (hover) — são definidos por estado logo abaixo */
+  /* preview no hover (tema oposto) */
   --fg-hover: #e5e7eb;
   --bg-hover: #2f3136;
   --bor-hover: #e6e8ec;
@@ -67,36 +72,41 @@ const ariaTitle = computed(() =>
 }
 .theme-btn:focus-visible{ box-shadow: 0 0 0 3px rgba(99,102,241,.35); }
 
-/* --- ESTADOS (definem as variáveis reais) --- */
-/* LIGHT (isDark=false) → ícone sol; preview no hover é DARK */
+/* tamanhos opcionais */
+.theme-btn.sm{ --size: 28px; }
+.theme-btn.lg{ --size: 36px; }
+
+/* ===== estados (definem variáveis reais) ===== */
+/* LIGHT (isDark=false) → sol visível; preview = DARK */
 .theme-btn[data-dark="false"]{
-  --fg: #1f2937;      /* ícone escuro */
+  --fg: #1f2937;
   --bg: transparent;
   --bor: #d3d6dc;
 
-  --fg-hover: #e5e7eb;/* ícone branco */
-  --bg-hover: #2f3136;/* fundo escuro */
+  --fg-hover: #e5e7eb;
+  --bg-hover: #2f3136;
   --bor-hover: #e6e8ec;
 }
-/* DARK (isDark=true) → ícone lua; preview no hover é LIGHT */
+
+/* DARK (isDark=true) → lua visível; preview = LIGHT */
 .theme-btn[data-dark="true"]{
-  --fg: #e5e7eb;      /* ícone claro */
+  --fg: #e5e7eb;
   --bg: transparent;
   --bor: #3f434a;
 
-  --fg-hover: #1f2937;/* ícone escuro */
-  --bg-hover: #e9eaee;/* fundo claro */
+  --fg-hover: #1f2937;
+  --bg-hover: #e9eaee;
   --bor-hover: #cdd0d6;
 }
 
-/* aplica o preview só no hover (sem mudar o tema global) */
+/* aplica o preview só no hover (não muda o tema global) */
 .theme-btn:hover{
   background: var(--bg-hover);
   color: var(--fg-hover);
   border-color: var(--bor-hover);
 }
 
-/* ícones: mesma célula, mesmo centro → nada “anda” ao trocar */
+/* ===== ícones ===== */
 .ico{
   grid-area: 1/1;
   width: 18px; height: 18px;
@@ -105,9 +115,21 @@ const ariaTitle = computed(() =>
   display: block;
 }
 
-/* qual ícone aparece em cada estado (não muda no hover) */
+/* base: qual ícone aparece por estado (sem hover) */
 .theme-btn[data-dark="false"] .sun{ opacity: 1; transform: scale(1) rotate(0deg); }
 .theme-btn[data-dark="false"] .moon{ opacity: 0; transform: scale(.8) rotate(15deg); }
 .theme-btn[data-dark="true"]  .sun{ opacity: 0; transform: scale(.8) rotate(-15deg); }
 .theme-btn[data-dark="true"]  .moon{ opacity: 1; transform: scale(1) rotate(0deg); }
+
+/* ===== troca o ícone no hover (mostra o oposto) ===== */
+.theme-btn[data-dark="false"]:hover .sun{ opacity: 0; transform: scale(.8) rotate(-15deg); }
+.theme-btn[data-dark="false"]:hover .moon{ opacity: 1; transform: scale(1) rotate(0deg); }
+
+.theme-btn[data-dark="true"]:hover .sun{ opacity: 1; transform: scale(1) rotate(0deg); }
+.theme-btn[data-dark="true"]:hover .moon{ opacity: 0; transform: scale(.8) rotate(15deg); }
+
+/* acessibilidade: reduz animações se preferido no SO */
+@media (prefers-reduced-motion: reduce) {
+  .theme-btn, .ico { transition: none !important; }
+}
 </style>
