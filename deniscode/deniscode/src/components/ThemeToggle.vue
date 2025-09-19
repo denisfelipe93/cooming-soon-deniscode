@@ -1,4 +1,3 @@
-<!-- src/components/ThemeToggle.vue -->
 <script setup>
 import { computed } from 'vue'
 import { useTheme } from '@/composables/useTheme.js'
@@ -7,42 +6,50 @@ const { isDark, toggle } = useTheme()
 const setDark  = () => { if (!isDark.value) toggle() }
 const setLight = () => { if ( isDark.value) toggle() }
 
-/* ===== tamanhos ===== */
-const trackW   = 36
-const trackH   = 19
-const border   = 1       // espessura do “contorno” (feito com fills)
+/* ===== medidas escolhidas ===== */
+const trackW = 36
+const trackH = 19
+const border = 1        // “contorno” via fills
 const knobLite = 14
 
 /* miolo */
 const innerW = trackW - 2*border
 const innerH = trackH - 2*border
-const rOut   = trackH / 2
-const rIn    = Math.max(innerH / 2, 0)
+const rOut = trackH / 2
+const rIn  = Math.max(innerH / 2, 0)
 
 /* meia-lua e folga do light */
-const gapL          = 8
+const gapL = 8
 const lightPadRight = 2
 
-/* ============ geometria animada ============ */
-/* retângulo de FILL que gera a meia-lua (clipado pelo miolo) */
-const fillX = border + gapL
-const fillY = border
-const fillW = computed(() => isDark.value ? innerW - gapL : 0)
-const fillH = innerH
+/* IDs únicos p/ evitar colisões */
+const uid = Math.random().toString(36).slice(2)
+const clipId = `inner-clip-${uid}`
+const maskId = `knob-cut-${uid}`
 
-/* thumb (círculo) — aparece no LIGHT */
-const thumbR  = knobLite / 2
-const thumbCY = border + innerH / 2
-const thumbCX = computed(() =>
-  isDark.value
-    ? border + gapL + thumbR   // qualquer posição (fica invisível)
-    : border + innerW - lightPadRight - thumbR
+/* knob (único retângulo) — anima x/y/width/height/rx/ry */
+const knobX = computed(() =>
+  isDark.value ? border + gapL : border + innerW - knobLite - lightPadRight
 )
-const thumbOpacity = computed(() => isDark.value ? 0 : 1)
+const knobY = computed(() =>
+  isDark.value ? border : border + (innerH - knobLite) / 2
+)
+const knobW = computed(() =>
+  isDark.value ? innerW - gapL : knobLite
+)
+const knobH = computed(() =>
+  isDark.value ? innerH : knobLite
+)
+const knobR = computed(() =>
+  isDark.value ? rIn : knobLite / 2
+)
+
+/* aplica máscara só no DARK (remove atributo no LIGHT) */
+const maskAttr = computed(() => (isDark.value ? `url(#${maskId})` : null))
 
 /* cores */
-const trackFill = computed(() => isDark.value ? 'transparent' : '#2f3136')
-const ringColor = computed(() => isDark.value ? '#eef0f3'     : '#2f3136')
+const trackFill = computed(() => (isDark.value ? 'transparent' : '#2f3136'))
+const ringColor = computed(() => (isDark.value ? '#eef0f3'     : '#2f3136'))
 const knobFill  = '#eef0f3'
 </script>
 
@@ -62,32 +69,37 @@ const knobFill  = '#eef0f3'
     >
       <svg :width="trackW" :height="trackH" :viewBox="`0 0 ${trackW} ${trackH}`" class="switch-svg">
         <defs>
-          <!-- recorte EXATO do miolo -->
-          <clipPath id="inner-clip">
+          <!-- miolo para clip (ID único) -->
+          <clipPath :id="clipId" clipPathUnits="userSpaceOnUse">
             <rect :x="border" :y="border" :width="innerW" :height="innerH" :rx="rIn" :ry="rIn"/>
           </clipPath>
+
+          <!-- máscara do knob no DARK: recorta círculo à esquerda -->
+          <mask :id="maskId" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
+            <!-- branco mantém, preto recorta -->
+            <rect :x="0" :y="0" :width="trackW" :height="trackH" fill="white"/>
+            <circle
+              :cx="border + gapL"
+              :cy="border + innerH/2"
+              :r="gapL"
+              fill="black"
+            />
+          </mask>
         </defs>
 
-        <!-- “anel” do contorno (sem stroke) -->
+        <!-- anel do contorno (sem stroke) -->
         <rect :x="0" :y="0" :width="trackW" :height="trackH" :rx="rOut" :ry="rOut" :fill="ringColor"/>
-        <!-- miolo do trilho -->
+        <!-- miolo -->
         <rect :x="border" :y="border" :width="innerW" :height="innerH" :rx="rIn" :ry="rIn" :fill="trackFill"/>
 
-        <!-- FILL do dark (gera meia-lua); recolhe a 0 no light -->
-        <rect class="fill"
-          :x="fillX" :y="fillY"
-          :width="fillW" :height="fillH"
-          :rx="rIn" :ry="rIn"
+        <!-- KNOB único (clipado; no DARK recebe máscara com meia-lua) -->
+        <rect class="knob"
+          :x="knobX" :y="knobY"
+          :width="knobW" :height="knobH"
+          :rx="knobR" :ry="knobR"
           :fill="knobFill"
-          clip-path="url(#inner-clip)"
-        />
-
-        <!-- THUMB (círculo) — só visível no light -->
-        <circle class="thumb"
-          :cx="thumbCX" :cy="thumbCY" :r="thumbR"
-          :fill="knobFill"
-          :opacity="thumbOpacity"
-          clip-path="url(#inner-clip)"
+          :clip-path="`url(#${clipId})`"
+          :mask="maskAttr"
         />
       </svg>
     </button>
@@ -101,14 +113,12 @@ const knobFill  = '#eef0f3'
   display:flex; align-items:center; gap:.5rem;
   font-size:12px; font-weight:700; letter-spacing:.06em; user-select:none;
 
-  /* cores dos labels */
+  /* hover unificado dos labels */
   --label-base-dark:  #9ca3af;
   --label-hover-dark: #e5e7eb;
   --label-base-light: #6b7280;
   --label-hover-light:#111827;
 }
-
-/* hover unificado (sem “levantar”) */
 .label{
   border:0; background:transparent; cursor:pointer; padding:0 .2rem;
   transition: color .15s ease;
@@ -121,7 +131,14 @@ const knobFill  = '#eef0f3'
 .toggle{ border:0; padding:0; background:none; cursor:pointer; line-height:0 }
 .switch-svg{ display:block }
 
-/* animações suaves (funcionam em Chrome/Edge/Firefox atuais) */
-.fill  { transition: width .24s ease; }
-.thumb { transition: cx .24s ease, opacity .18s ease; }
+/* animação “de antes”: atributos do SVG */
+.knob{
+  transition:
+    x .22s ease,
+    y .22s ease,
+    width .22s ease,
+    height .22s ease,
+    rx .22s ease,
+    ry .22s ease;
+}
 </style>
