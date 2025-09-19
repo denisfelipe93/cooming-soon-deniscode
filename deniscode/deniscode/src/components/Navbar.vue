@@ -4,7 +4,9 @@ import { ref, computed } from 'vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import LangSwitcher from '@/components/LangSwitcher.vue'
 import { useLocale } from '@/composables/useLocale.js'
-import logo from '@/assets/dc.svg' // viewBox 448x272
+
+import logoLight from '@/assets/dc.svg'
+import logoDark  from '@/assets/dc-darkmode.svg'
 
 const isOpen = ref(false)
 const { locale } = useLocale()
@@ -22,20 +24,12 @@ const hrefs = { home: '#home', projects: '#projects', about: '#about', contact: 
 <template>
   <header class="fixed inset-x-0 top-0 z-50 bg-white/85 dark:bg-zinc-900/70 backdrop-blur border-b border-zinc-200/70 dark:border-zinc-800/70">
     <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" :aria-label="t.aria">
-      <!-- Logo: máscara com proporção correta + herda currentColor -->
-      <a
-        href="#home"
-        class="flex items-center text-zinc-900 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"
-        aria-label="Home"
-      >
-        <span
-          class="logo-mask"
-          :style="{
-            WebkitMaskImage: `url(${logo})`,
-            maskImage: `url(${logo})`
-          }"
-          aria-hidden="true"
-        />
+      <!-- Logo: troca por tema (light/dark) -->
+      <a href="#home" class="flex items-center" aria-label="Home">
+        <!-- light -->
+        <img :src="logoLight" alt="deniscode logo" class="h-7 w-auto dark:hidden" />
+        <!-- dark -->
+        <img :src="logoDark" alt="" class="h-7 w-auto hidden dark:block" />
       </a>
 
       <!-- Links (desktop) -->
@@ -98,19 +92,5 @@ const hrefs = { home: '#home', projects: '#projects', about: '#about', contact: 
 </template>
 
 <style scoped>
-/* mantém a proporção do SVG (448×272) e pinta com currentColor */
-.logo-mask{
-  display: inline-block;
-  width: 32px;                 /* ajuste fino aqui (ex.: 28/30/32/36) */
-  aspect-ratio: 448 / 272;     /* evita “quadrado” */
-  background-color: currentColor;
-
-  /* máscara */
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-          mask-position: center;
-  -webkit-mask-size: contain;
-          mask-size: contain;
-}
+/* (removido o CSS da máscara) */
 </style>
