@@ -1,3 +1,4 @@
+<!-- src/components/ThemeToggle.vue -->
 <script setup>
 import { computed } from 'vue'
 import { useTheme } from '@/composables/useTheme.js'
@@ -6,51 +7,48 @@ const { isDark, toggle } = useTheme()
 const setDark  = () => { if (!isDark.value) toggle() }
 const setLight = () => { if ( isDark.value) toggle() }
 
-/* ===== medidas escolhidas ===== */
-const trackW = 36
-const trackH = 19
-const border = 1        // “contorno” via fills
+/* ===== tamanhos (pares → sem meia-linha) ===== */
+const trackW   = 36
+const trackH   = 19   // ← par
+const strokeW  = 1    // ← par
 const knobLite = 14
 
 /* miolo */
-const innerW = trackW - 2*border
-const innerH = trackH - 2*border
-const rOut = trackH / 2
-const rIn  = Math.max(innerH / 2, 0)
+const innerW = trackW - strokeW
+const innerH = trackH - strokeW
+const r      = innerH / 2
 
-/* meia-lua e folga do light */
-const gapL = 8
+/* meia-lua e folga da bolinha (LIGHT) */
+const gapL          = 8
 const lightPadRight = 2
 
-/* IDs únicos p/ evitar colisões */
-const uid = Math.random().toString(36).slice(2)
-const clipId = `inner-clip-${uid}`
-const maskId = `knob-cut-${uid}`
+/* overshoot sutil p/ “soldar” o knob sob o stroke (sem engordar visivelmente) */
+const overX = 0.6, overY = 0.35
 
-/* knob (único retângulo) — anima x/y/width/height/rx/ry */
+/* knob único: anima x/y/w/h/r */
 const knobX = computed(() =>
-  isDark.value ? border + gapL : border + innerW - knobLite - lightPadRight
+  isDark.value ? strokeW/2 + gapL : strokeW/2 + innerW - knobLite - lightPadRight
 )
 const knobY = computed(() =>
-  isDark.value ? border : border + (innerH - knobLite) / 2
+  isDark.value ? strokeW/2 - overY : strokeW/2 + (innerH - knobLite)/2
 )
 const knobW = computed(() =>
-  isDark.value ? innerW - gapL : knobLite
+  isDark.value ? innerW - gapL + overX : knobLite
 )
 const knobH = computed(() =>
-  isDark.value ? innerH : knobLite
+  isDark.value ? innerH + 2*overY : knobLite
 )
 const knobR = computed(() =>
-  isDark.value ? rIn : knobLite / 2
+  isDark.value ? r + overY : knobLite/2
 )
 
-/* aplica máscara só no DARK (remove atributo no LIGHT) */
-const maskAttr = computed(() => (isDark.value ? `url(#${maskId})` : null))
-
 /* cores */
-const trackFill = computed(() => (isDark.value ? 'transparent' : '#2f3136'))
-const ringColor = computed(() => (isDark.value ? '#eef0f3'     : '#2f3136'))
-const knobFill  = '#eef0f3'
+const trackFill   = computed(() => isDark.value ? 'transparent' : '#2f3136')
+const trackStroke = computed(() => isDark.value ? '#eef0f3'     : '#2f3136')
+const knobFill    = '#eef0f3'
+
+/* stroke superior levemente mais grosso (cobre qualquer hairline) */
+const strokeOverlayFudge = 0.45
 </script>
 
 <template>
@@ -67,39 +65,32 @@ const knobFill  = '#eef0f3'
       @keydown.enter.prevent="toggle"
       @keydown.space.prevent="toggle"
     >
-      <svg :width="trackW" :height="trackH" :viewBox="`0 0 ${trackW} ${trackH}`" class="switch-svg">
-        <defs>
-          <!-- miolo para clip (ID único) -->
-          <clipPath :id="clipId" clipPathUnits="userSpaceOnUse">
-            <rect :x="border" :y="border" :width="innerW" :height="innerH" :rx="rIn" :ry="rIn"/>
-          </clipPath>
+      <svg :width="trackW" :height="trackH" :viewBox="`0 0 ${trackW} ${trackH}`"
+           class="switch-svg" shape-rendering="geometricPrecision">
+        <!-- trilho base -->
+        <rect
+          :x="strokeW/2" :y="strokeW/2"
+          :width="trackW - strokeW" :height="trackH - strokeW"
+          :rx="(trackH - strokeW)/2" :ry="(trackH - strokeW)/2"
+          :fill="trackFill" :stroke="trackStroke" :stroke-width="strokeW"
+          stroke-linejoin="round" stroke-linecap="round"
+        />
 
-          <!-- máscara do knob no DARK: recorta círculo à esquerda -->
-          <mask :id="maskId" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
-            <!-- branco mantém, preto recorta -->
-            <rect :x="0" :y="0" :width="trackW" :height="trackH" fill="white"/>
-            <circle
-              :cx="border + gapL"
-              :cy="border + innerH/2"
-              :r="gapL"
-              fill="black"
-            />
-          </mask>
-        </defs>
-
-        <!-- anel do contorno (sem stroke) -->
-        <rect :x="0" :y="0" :width="trackW" :height="trackH" :rx="rOut" :ry="rOut" :fill="ringColor"/>
-        <!-- miolo -->
-        <rect :x="border" :y="border" :width="innerW" :height="innerH" :rx="rIn" :ry="rIn" :fill="trackFill"/>
-
-        <!-- KNOB único (clipado; no DARK recebe máscara com meia-lua) -->
+        <!-- knob (com overshoot por baixo do stroke) -->
         <rect class="knob"
           :x="knobX" :y="knobY"
           :width="knobW" :height="knobH"
           :rx="knobR" :ry="knobR"
           :fill="knobFill"
-          :clip-path="`url(#${clipId})`"
-          :mask="maskAttr"
+        />
+
+        <!-- stroke por cima cobre qualquer hairline -->
+        <rect
+          :x="strokeW/2" :y="strokeW/2"
+          :width="trackW - strokeW" :height="trackH - strokeW"
+          :rx="(trackH - strokeW)/2" :ry="(trackH - strokeW)/2"
+          fill="none" :stroke="trackStroke" :stroke-width="strokeW + strokeOverlayFudge"
+          stroke-linejoin="round" stroke-linecap="round"
         />
       </svg>
     </button>
@@ -113,15 +104,12 @@ const knobFill  = '#eef0f3'
   display:flex; align-items:center; gap:.5rem;
   font-size:12px; font-weight:700; letter-spacing:.06em; user-select:none;
 
-  /* hover unificado dos labels */
-  --label-base-dark:  #9ca3af;
-  --label-hover-dark: #e5e7eb;
-  --label-base-light: #6b7280;
-  --label-hover-light:#111827;
+  --label-base-dark:#9ca3af;  --label-hover-dark:#e5e7eb;
+  --label-base-light:#6b7280; --label-hover-light:#111827;
 }
 .label{
   border:0; background:transparent; cursor:pointer; padding:0 .2rem;
-  transition: color .15s ease;
+  transition:color .15s ease;
 }
 .theme-switch[data-mode="dark"]  .label{ color:var(--label-base-dark)  }
 .theme-switch[data-mode="light"] .label{ color:var(--label-base-light) }
@@ -130,15 +118,10 @@ const knobFill  = '#eef0f3'
 
 .toggle{ border:0; padding:0; background:none; cursor:pointer; line-height:0 }
 .switch-svg{ display:block }
-
-/* animação “de antes”: atributos do SVG */
 .knob{
   transition:
-    x .22s ease,
-    y .22s ease,
-    width .22s ease,
-    height .22s ease,
-    rx .22s ease,
-    ry .22s ease;
+    x .22s ease, y .22s ease,
+    width .22s ease, height .22s ease,
+    rx .22s ease, ry .22s ease;
 }
 </style>

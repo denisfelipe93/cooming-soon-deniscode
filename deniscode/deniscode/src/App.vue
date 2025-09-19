@@ -1,7 +1,8 @@
 <!-- src/App.vue -->
 <script setup>
 import { onMounted } from 'vue'
-import Hero from './components/Hero.vue'
+import Navbar from '@/components/Navbar.vue'
+import Hero from '@/components/Hero.vue'
 
 // (opcional) usa o tema escuro se o sistema preferir
 onMounted(() => {
@@ -13,10 +14,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- Wrapper global do site -->
-  <main class="min-h-screen font-sans antialiased bg-white text-zinc-900 dark:bg-[#0b0f14] dark:text-zinc-100">
-    <Hero />
+  <!-- Header fixo -->
+  <Navbar />
 
+  <!-- Conteúdo: padding top = altura do header (h-16) -->
+  <main class="pt-16 min-h-screen font-sans antialiased bg-white text-zinc-900 dark:bg-[#0b0f14] dark:text-zinc-100">
+    <Hero />
     <!-- (futuras seções aqui) -->
     <!-- <SolutionsSection /> -->
     <!-- <PricingSection /> -->
