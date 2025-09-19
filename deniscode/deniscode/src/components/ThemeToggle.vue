@@ -1,127 +1,113 @@
-<!-- src/components/ThemeToggle.vue -->
 <script setup>
 import { computed } from 'vue'
 import { useTheme } from '@/composables/useTheme.js'
 
 const { isDark, toggle } = useTheme()
-const setDark  = () => { if (!isDark.value) toggle() }
-const setLight = () => { if ( isDark.value) toggle() }
 
-/* ===== tamanhos (pares → sem meia-linha) ===== */
-const trackW   = 36
-const trackH   = 19   // ← par
-const strokeW  = 1    // ← par
-const knobLite = 14
-
-/* miolo */
-const innerW = trackW - strokeW
-const innerH = trackH - strokeW
-const r      = innerH / 2
-
-/* meia-lua e folga da bolinha (LIGHT) */
-const gapL          = 8
-const lightPadRight = 2
-
-/* overshoot sutil p/ “soldar” o knob sob o stroke (sem engordar visivelmente) */
-const overX = 0.6, overY = 0.35
-
-/* knob único: anima x/y/w/h/r */
-const knobX = computed(() =>
-  isDark.value ? strokeW/2 + gapL : strokeW/2 + innerW - knobLite - lightPadRight
+const ariaTitle = computed(() =>
+  isDark.value ? 'Switch to light mode' : 'Switch to dark mode'
 )
-const knobY = computed(() =>
-  isDark.value ? strokeW/2 - overY : strokeW/2 + (innerH - knobLite)/2
-)
-const knobW = computed(() =>
-  isDark.value ? innerW - gapL + overX : knobLite
-)
-const knobH = computed(() =>
-  isDark.value ? innerH + 2*overY : knobLite
-)
-const knobR = computed(() =>
-  isDark.value ? r + overY : knobLite/2
-)
-
-/* cores */
-const trackFill   = computed(() => isDark.value ? 'transparent' : '#2f3136')
-const trackStroke = computed(() => isDark.value ? '#eef0f3'     : '#2f3136')
-const knobFill    = '#eef0f3'
-
-/* stroke superior levemente mais grosso (cobre qualquer hairline) */
-const strokeOverlayFudge = 0.45
 </script>
 
 <template>
-  <div class="theme-switch" :data-mode="isDark ? 'dark' : 'light'">
-    <button type="button" class="label" @click="setDark">DARK</button>
+  <button
+    class="theme-btn"
+    role="switch"
+    :aria-checked="isDark"
+    :data-dark="isDark"
+    :title="ariaTitle"
+    @click="toggle"
+    @keydown.enter.prevent="toggle"
+    @keydown.space.prevent="toggle"
+  >
+    <!-- Sun -->
+    <svg class="ico sun" viewBox="0 0 24 24" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2 M12 20v2 M2 12h2 M20 12h2
+                 M4.93 4.93l1.41 1.41 M17.66 17.66l1.41 1.41
+                 M17.66 6.34l1.41-1.41 M6.34 17.66l-1.41 1.41"/>
+      </g>
+    </svg>
 
-    <button
-      type="button"
-      class="toggle"
-      role="switch"
-      :aria-checked="isDark"
-      :title="isDark ? 'Dark' : 'Light'"
-      @click="toggle"
-      @keydown.enter.prevent="toggle"
-      @keydown.space.prevent="toggle"
-    >
-      <svg :width="trackW" :height="trackH" :viewBox="`0 0 ${trackW} ${trackH}`"
-           class="switch-svg" shape-rendering="geometricPrecision">
-        <!-- trilho base -->
-        <rect
-          :x="strokeW/2" :y="strokeW/2"
-          :width="trackW - strokeW" :height="trackH - strokeW"
-          :rx="(trackH - strokeW)/2" :ry="(trackH - strokeW)/2"
-          :fill="trackFill" :stroke="trackStroke" :stroke-width="strokeW"
-          stroke-linejoin="round" stroke-linecap="round"
-        />
-
-        <!-- knob (com overshoot por baixo do stroke) -->
-        <rect class="knob"
-          :x="knobX" :y="knobY"
-          :width="knobW" :height="knobH"
-          :rx="knobR" :ry="knobR"
-          :fill="knobFill"
-        />
-
-        <!-- stroke por cima cobre qualquer hairline -->
-        <rect
-          :x="strokeW/2" :y="strokeW/2"
-          :width="trackW - strokeW" :height="trackH - strokeW"
-          :rx="(trackH - strokeW)/2" :ry="(trackH - strokeW)/2"
-          fill="none" :stroke="trackStroke" :stroke-width="strokeW + strokeOverlayFudge"
-          stroke-linejoin="round" stroke-linecap="round"
-        />
-      </svg>
-    </button>
-
-    <button type="button" class="label" @click="setLight">LIGHT</button>
-  </div>
+    <!-- Moon -->
+    <svg class="ico moon" viewBox="0 0 24 24" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3
+                 7 7 0 0 0 21 12.79z"/>
+      </g>
+    </svg>
+  </button>
 </template>
 
 <style scoped>
-.theme-switch{
-  display:flex; align-items:center; gap:.5rem;
-  font-size:12px; font-weight:700; letter-spacing:.06em; user-select:none;
+.theme-btn{
+  --size: 32px;
 
-  --label-base-dark:#9ca3af;  --label-hover-dark:#e5e7eb;
-  --label-base-light:#6b7280; --label-hover-light:#111827;
-}
-.label{
-  border:0; background:transparent; cursor:pointer; padding:0 .2rem;
-  transition:color .15s ease;
-}
-.theme-switch[data-mode="dark"]  .label{ color:var(--label-base-dark)  }
-.theme-switch[data-mode="light"] .label{ color:var(--label-base-light) }
-.theme-switch[data-mode="dark"]  .label:hover{ color:var(--label-hover-dark)  }
-.theme-switch[data-mode="light"] .label:hover{ color:var(--label-hover-light) }
+  /* valores padrão (serão sobrescritos por estado) */
+  --fg: #1f2937;      /* cor dos ícones */
+  --bg: transparent;  /* fundo padrão */
+  --bor: #d3d6dc;     /* borda padrão */
 
-.toggle{ border:0; padding:0; background:none; cursor:pointer; line-height:0 }
-.switch-svg{ display:block }
-.knob{
-  transition:
-    x .22s ease, y .22s ease,
-    width .22s ease, height .22s ease,
-    rx .22s ease, ry .22s ease;
+  /* valores de PREVIEW (hover) — são definidos por estado logo abaixo */
+  --fg-hover: #e5e7eb;
+  --bg-hover: #2f3136;
+  --bor-hover: #e6e8ec;
+
+  width: var(--size);
+  height: var(--size);
+  display: inline-grid;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1px solid var(--bor);
+  background: var(--bg);
+  color: var(--fg);
+  transition: border-color .2s ease, color .2s ease, background-color .2s ease;
+  outline: none;
 }
+.theme-btn:focus-visible{ box-shadow: 0 0 0 3px rgba(99,102,241,.35); }
+
+/* --- ESTADOS (definem as variáveis reais) --- */
+/* LIGHT (isDark=false) → ícone sol; preview no hover é DARK */
+.theme-btn[data-dark="false"]{
+  --fg: #1f2937;      /* ícone escuro */
+  --bg: transparent;
+  --bor: #d3d6dc;
+
+  --fg-hover: #e5e7eb;/* ícone branco */
+  --bg-hover: #2f3136;/* fundo escuro */
+  --bor-hover: #e6e8ec;
+}
+/* DARK (isDark=true) → ícone lua; preview no hover é LIGHT */
+.theme-btn[data-dark="true"]{
+  --fg: #e5e7eb;      /* ícone claro */
+  --bg: transparent;
+  --bor: #3f434a;
+
+  --fg-hover: #1f2937;/* ícone escuro */
+  --bg-hover: #e9eaee;/* fundo claro */
+  --bor-hover: #cdd0d6;
+}
+
+/* aplica o preview só no hover (sem mudar o tema global) */
+.theme-btn:hover{
+  background: var(--bg-hover);
+  color: var(--fg-hover);
+  border-color: var(--bor-hover);
+}
+
+/* ícones: mesma célula, mesmo centro → nada “anda” ao trocar */
+.ico{
+  grid-area: 1/1;
+  width: 18px; height: 18px;
+  transform-origin: 50% 50%;
+  transition: opacity .22s ease, transform .22s ease;
+  display: block;
+}
+
+/* qual ícone aparece em cada estado (não muda no hover) */
+.theme-btn[data-dark="false"] .sun{ opacity: 1; transform: scale(1) rotate(0deg); }
+.theme-btn[data-dark="false"] .moon{ opacity: 0; transform: scale(.8) rotate(15deg); }
+.theme-btn[data-dark="true"]  .sun{ opacity: 0; transform: scale(.8) rotate(-15deg); }
+.theme-btn[data-dark="true"]  .moon{ opacity: 1; transform: scale(1) rotate(0deg); }
 </style>
