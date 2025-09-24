@@ -150,6 +150,11 @@ const dict = computed(() => messages[locale.value])
     z-index: 30;                  /* acima do CTA se precisar */
     pointer-events: none;
   }
+  .hero-copy{
+    /* ↓ mexa neste valor para subir/descer o bloco de texto no mobile “normal” */
+    margin-top: clamp(0.5rem, 6vh, 1.25rem);
+    z-index: 40; /* garante acima do mockup */
+  }
 
   /* garante que o <picture> ocupe a moldura toda */
   .laptop > picture{ position:absolute; inset:0; }
@@ -163,8 +168,6 @@ const dict = computed(() => messages[locale.value])
     height: 120%;                 /* zoom (150–165% funciona bem) */
     transform: translate(50%, -50%); /* ↑ aumente 22% → 24–28% p/ ver mais “código” à esquerda */
   }
-
-
 
 @media (max-width: 444px){
   .laptop-img{
