@@ -133,11 +133,11 @@ const dict = computed(() => messages[locale.value])
   .laptop-img{ --tx: 64%; height:106%; }
 }
 @media (max-width: 690px){
-  .laptop{ width:min(42vw,690px); }
+  .laptop{ width:min(42vw,640px); }
   .laptop-img{ --tx: 66%; height:104%; }
 }
 
-@media (max-width: 690px){
+@media (max-width: 640px){
    /* Moldura / Janela de corte (fica DENTRO da viewport) */
   .laptop{
     position: absolute;
@@ -168,13 +168,13 @@ const dict = computed(() => messages[locale.value])
     height: 120%;                 /* zoom (150–165% funciona bem) */
     transform: translate(50%, -50%); /* ↑ aumente 22% → 24–28% p/ ver mais “código” à esquerda */
   }
+}
 
 @media (max-width: 444px){
   .laptop-img{
     height: 120%;                 /* zoom (150–165% funciona bem) */
-    transform: translate(55%, -50%)
+    transform: translate(57%, -50%)
   }
 }  
-}
 
 </style>
