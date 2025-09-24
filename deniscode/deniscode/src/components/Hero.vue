@@ -1,4 +1,5 @@
 <script setup>
+/* ===================== SCRIPT (i18n local) ===================== */
 import { computed } from 'vue'
 import { useLocale } from '@/composables/useLocale.js'
 
@@ -32,100 +33,145 @@ const dict = computed(() => messages[locale.value])
 </script>
 
 <template>
-  <!-- fundo na seção para cobrir toda a largura e evitar borda branca -->
-  <section id="home" class="relative bg-[#0A0D12] dark:bg-[#0A0D12]">
-    <!-- pb-48 no mobile cria “piso” pro mockup absoluto -->
-    <div class="relative z-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-14 pb-48 sm:pb-24 md:pb-32">
-      <div class="hero-inner">
-        <div class="hero-copy max-w-xl mt-[clamp(2rem,14vh,10rem)]">
-          <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-zinc-50 md:text-zinc-900 dark:text-zinc-50 max-w-[18ch]">
-            {{ dict.hero.title }}
-          </h1>
+  <!-- ===================== HERO ===================== -->
+  <section id="home" class="relative isolate max-[690px]:overflow-x-clip">
+    <div class="relative z-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-14 pb-24 md:pb-32">
+      <div class="hero-copy max-w-xl mt-[clamp(2rem,14vh,10rem)]">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50 max-w-[18ch]">
+          {{ dict.hero.title }}
+        </h1>
 
-          <p class="mt-4 md:mt-6 text-base md:text-xl text-zinc-400 md:text-zinc-600 dark:text-zinc-400 max-w-[60ch]">
-            {{ dict.hero.subtitle }}
-          </p>
+        <p class="mt-4 md:mt-6 text-base md:text-xl text-zinc-600 dark:text-zinc-400 max-w-[60ch]">
+          {{ dict.hero.subtitle }}
+        </p>
 
-          <div class="mt-6 md:mt-8">
-            <a
-              href="#start"
-              class="hero-cta inline-flex items-center rounded-xl px-6 py-3
-                     text-sm md:text-base font-semibold
-                     bg-[#BD93F9] text-white shadow-lg hover:opacity-95 transition
-                     dark:bg-white dark:text-zinc-900 w-auto">
-              {{ dict.ctaHero }}
-            </a>
-          </div>
-        </div>
-
-        <!-- mockup -->
-        <div class="laptop">
-          <img src="@/assets/laptop-lightmode.png" alt="" class="laptop-img dark:hidden" loading="eager" decoding="async" />
-          <img src="@/assets/laptop-darkmode.png"  alt="" class="laptop-img hidden dark:block" loading="eager" decoding="async" />
+        <div class="mt-6 md:mt-8">
+          <a
+            href="#start"
+            class="inline-flex items-center rounded-xl px-6 py-3
+                   text-sm md:text-base font-semibold
+                   bg-[#BD93F9] text-white shadow-lg hover:opacity-95 transition
+                   dark:bg-white dark:text-zinc-900
+                   w-auto"
+          >
+            {{ dict.ctaHero }}
+          </a>
         </div>
       </div>
+    </div>
+
+    <!-- mockup (corte interno; WebP + fallback PNG) -->
+    <div class="laptop">
+      <!-- LIGHT -->
+      <picture class="dark:hidden">
+        <source srcset="@/assets/laptop-lightmode.webp" type="image/webp" />
+        <img src="@/assets/laptop-lightmode.webp" alt="" class="laptop-img" loading="eager" decoding="async" />
+      </picture>
+
+      <!-- DARK -->
+      <picture class="hidden dark:block">
+        <source srcset="@/assets/laptop-darkmode.webp" type="image/webp" />
+        <img src="@/assets/laptop-darkmode.webp" alt="" class="laptop-img" loading="eager" decoding="async" />
+      </picture>
     </div>
   </section>
 </template>
 
 <style scoped>
-/* =============== Desktop base (1ª versão restaurada) =============== */
+/* ===================== DESKTOP (BASE) ===================== */
 .laptop{
   position:absolute; right:0; top:15vh; z-index:10;
   pointer-events:none; user-select:none;
-  width:min(58vw,1200px); height:min(110dvh,1100px);
-  overflow:hidden; /* corte interno */
+  width:min(58vw,1200px);
+  height:min(110dvh,1100px);
+  overflow:hidden;
 }
+/* o <picture> deve ocupar a moldura toda */
+.laptop > picture{ position:absolute; inset:0; }
+
 .laptop-img{
   position:absolute; top:50%; right:0;
   height:130%; width:auto; max-width:none;
-  transform: translate(40%, -50%); /* alinhamento original */
+  --tx: 34%; /* deslocamento lateral base */
+  transform: translate(var(--tx), -50%);
 }
 
-/* Desktop mais estreito: empurrar à direita quando a viewport reduz */
-@media (max-width: 1670px){ .laptop-img{ transform: translate(44%, -50%); } }
-@media (max-width: 1536px){ .laptop-img{ transform: translate(48%, -50%); height:128%; } }
-@media (max-width: 1440px){ .laptop-img{ transform: translate(52%, -50%); height:124%; } }
+/* ===== Degradê: diminui e empurra até 720px ===== */
+@media (max-width: 1670px){ .laptop-img{ --tx: 38%; } }
+@media (max-width: 1536px){ .laptop-img{ --tx: 42%; height:128%; } }
+@media (max-width: 1440px){ .laptop-img{ --tx: 46%; height:124%; } }
 @media (max-width: 1366px){
   .laptop{ height:min(100svh,1050px); }
-  .laptop-img{ transform: translate(56%, -50%); height:120%; }
+  .laptop-img{ --tx: 50%; height:120%; }
 }
 @media (max-width: 1280px){
   .laptop{ width:min(56vw,980px); }
-  .laptop-img{ transform: translate(60%, -50%); height:118%; }
+  .laptop-img{ --tx: 52%; height:118%; }
+}
+@media (max-width: 1180px){
+  .laptop{ width:min(54vw,920px); }
+  .laptop-img{ --tx: 54%; height:116%; }
+}
+@media (max-width: 1100px){
+  .laptop{ width:min(52vw,880px); }
+  .laptop-img{ --tx: 56%; height:114%; }
+}
+@media (max-width: 1024px){
+  .laptop{ width:min(50vw,840px); }
+  .laptop-img{ --tx: 58%; height:112%; }
+}
+@media (max-width: 920px){
+  .laptop{ width:min(48vw,800px); }
+  .laptop-img{ --tx: 60%; height:110%; }
+}
+@media (max-width: 820px){
+  .laptop{ width:min(46vw,760px); }
+  .laptop-img{ --tx: 62%; height:108%; }
+}
+@media (max-width: 760px){
+  .laptop{ width:min(44vw,720px); }
+  .laptop-img{ --tx: 64%; height:106%; }
+}
+@media (max-width: 690px){
+  .laptop{ width:min(42vw,690px); }
+  .laptop-img{ --tx: 66%; height:104%; }
 }
 
-/* Desktop mais largo que 1280: continue acompanhando p/ a DIREITA */
-@media (min-width: 1536px){ .laptop-img{ transform: translate(42%, -50%); } }
-@media (min-width: 1720px){ .laptop-img{ transform: translate(44%, -50%); } }
-@media (min-width: 1920px){ .laptop-img{ transform: translate(46%, -50%); } }
-@media (min-width: 2200px){ .laptop-img{ transform: translate(50%, -50%); } }
-
-/* ================= Mobile (≤ 600 px) =================
-   Mockup absoluto no canto inferior-direito + corte (metadinha), z-index alto. */
-@media (max-width: 600px){
-  .hero-copy{ margin-top: clamp(1rem, 8vh, 2.5rem); }
-  .hero-cta{ align-self:flex-start; }
-
+@media (max-width: 690px){
+   /* Moldura / Janela de corte (fica DENTRO da viewport) */
   .laptop{
-    position:absolute;
-    right: -10vw;
-    bottom: 4vh;                       /* ↓ desce um pouco */
-    width: clamp(320px, 92vw, 520px);
-    height: clamp(160px, 24vh, 210px);  /* janela de corte controla “metade” */
-    overflow:hidden;
-    z-index: 50;                        /* ↑ por cima de qualquer overlay */
-    pointer-events:none;
+    position: absolute;
+    top: auto;
+    right: 0;                     /* <<< sem valor negativo! mantém a moldura dentro */
+    bottom: -35vh;                  /* ajuste fino: ↑ sobe / ↓ desce o conjunto */
+    width:  clamp(360px, 92vw, 600px);
+    height: clamp(340px, 48vh, 480px); /* janela alta = não corta topo/base */
+    overflow: hidden;             /* corta o que “vaza” da imagem (apenas direita) */
+    z-index: 30;                  /* acima do CTA se precisar */
+    pointer-events: none;
   }
+
+  /* garante que o <picture> ocupe a moldura toda */
+  .laptop > picture{ position:absolute; inset:0; }
+
+  /* Imagem: empurra PARA A DIREITA (o corte fica só no lado direito) */
   .laptop-img{
-    position:absolute; top:50%; right:0;
-    height: 158%;
-    width:auto; max-width:none;
-    transform: translate(36%, -50%);    /* metade esquerda visível */
+    position: absolute;
+    right: 0;
+    top: 50%;
+    bottom: auto;
+    height: 120%;                 /* zoom (150–165% funciona bem) */
+    transform: translate(50%, -50%); /* ↑ aumente 22% → 24–28% p/ ver mais “código” à esquerda */
   }
+
+
+
+@media (max-width: 444px){
+  .laptop-img{
+    height: 120%;                 /* zoom (150–165% funciona bem) */
+    transform: translate(55%, -50%)
+  }
+}  
 }
 
-/* Ajustes finos por aparelho (opcional) */
-@media (max-width: 430px){ .laptop-img{ transform: translate(38%, -50%); } }
-@media (max-width: 360px){ .laptop-img{ transform: translate(42%, -50%); } }
 </style>
