@@ -139,7 +139,7 @@ const dict = computed(() => messages[locale.value])
 
 @media (max-width: 640px){
    #home{
-    min-height: 88svh;                  /* usa svh p/ evitar barra de URL “comer” altura */
+    min-height: 85svh;                  /* usa svh p/ evitar barra de URL “comer” altura */
     padding-bottom: clamp(2rem, 8vh, 3.5rem);
   }
 
@@ -147,7 +147,7 @@ const dict = computed(() => messages[locale.value])
     position: absolute;
     top: auto;
     right: 0;                     /* <<< sem valor negativo! mantém a moldura dentro */
-    bottom: -10vh;                  /* ajuste fino: ↑ sobe / ↓ desce o conjunto */
+    bottom: -15vh;                  /* ajuste fino: ↑ sobe / ↓ desce o conjunto */
     width:  clamp(360px, 92vw, 600px);
     height: clamp(340px, 50vh, 520px); /* janela alta = não corta topo/base */
     overflow: hidden;             /* corta o que “vaza” da imagem (apenas direita) */
