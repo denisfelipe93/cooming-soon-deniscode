@@ -94,7 +94,6 @@ const dict = computed(() => messages[locale.value])
   height:130%; width:auto; max-width:none;
   --tx: 34%; /* deslocamento lateral base */
   transform: translate(var(--tx), -50%);
-  z-index: 500;
 }
 
 /* ===== Degradê: diminui e empurra até 720px ===== */
