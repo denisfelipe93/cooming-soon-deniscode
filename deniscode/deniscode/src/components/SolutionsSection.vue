@@ -84,7 +84,7 @@ const dict = computed(() => messages[locale.value])
           <a
             href="#contact"
             class="inline-flex items-center rounded-xl px-5 py-3 text-sm font-semibold
-                   bg-[#BD93F9] text-white shadow-lg hover:opacity-95 transition
+                   bg-[#4c2b89] text-white shadow-lg hover:opacity-95 transition
                    dark:bg-white dark:text-zinc-900"
           >
             {{ locale === 'pt' ? 'Solicitar proposta' : 'Request a proposal' }}

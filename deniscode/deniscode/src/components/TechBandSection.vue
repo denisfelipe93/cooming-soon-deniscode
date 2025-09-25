@@ -146,8 +146,8 @@ onUnmounted(() => { if (cleanup) cleanup() })
       color-mix(in oklab, var(--band-bg-light) 100%, transparent 0%) 60%,
       var(--band-bg-light) 100%),
     linear-gradient(0deg,
-      color-mix(in oklab, var(--band-bg-light) 98%, #BD93F9 2%),
-      color-mix(in oklab, var(--band-bg-light) 98%, #BD93F9 2%));
+      color-mix(in oklab, var(--band-bg-light) 98%, #4c2b89 2%),
+      color-mix(in oklab, var(--band-bg-light) 98%, #4c2b89 2%));
   color: var(--band-fg-light);
 
   /* borda/assentamento (bem sutis) */

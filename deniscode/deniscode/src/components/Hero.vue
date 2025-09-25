@@ -50,7 +50,7 @@ const dict = computed(() => messages[locale.value])
             href="#start"
             class="inline-flex items-center rounded-xl px-6 py-3
                    text-sm md:text-base font-semibold
-                   bg-[#BD93F9] text-white shadow-lg hover:opacity-95 transition
+                   bg-[#4c2b89] text-white shadow-lg hover:opacity-95 transition
                    dark:bg-white dark:text-zinc-900
                    w-auto"
           >
