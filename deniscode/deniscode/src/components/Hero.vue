@@ -34,7 +34,7 @@ const dict = computed(() => messages[locale.value])
 
 <template>
   <!-- ===================== HERO ===================== -->
-  <section id="home" class="relative isolate max-[690px]:overflow-x-clip">
+  <section id="home" class="relative isolate z-[10] max-[690px]:overflow-x-clip">
     <div class="relative z-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-14 pb-24 md:pb-32">
       <div class="hero-copy max-w-xl mt-[clamp(2rem,14vh,10rem)]">
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-zinc-900 dark:text-zinc-50 max-w-[18ch]">
@@ -145,15 +145,15 @@ const dict = computed(() => messages[locale.value])
     right: 0;                     /* <<< sem valor negativo! mantém a moldura dentro */
     bottom: -35vh;                  /* ajuste fino: ↑ sobe / ↓ desce o conjunto */
     width:  clamp(360px, 92vw, 600px);
-    height: clamp(340px, 48vh, 480px); /* janela alta = não corta topo/base */
+    height: clamp(340px, 50vh, 520px); /* janela alta = não corta topo/base */
     overflow: hidden;             /* corta o que “vaza” da imagem (apenas direita) */
-    z-index: 30;                  /* acima do CTA se precisar */
+    z-index: 50;                  /* acima do CTA se precisar */
     pointer-events: none;
   }
   .hero-copy{
     /* ↓ mexa neste valor para subir/descer o bloco de texto no mobile “normal” */
     margin-top: clamp(0.5rem, 6vh, 1.25rem);
-    z-index: 40; /* garante acima do mockup */
+    z-index: 60; /* garante acima do mockup */
   }
 
   /* garante que o <picture> ocupe a moldura toda */
@@ -173,7 +173,7 @@ const dict = computed(() => messages[locale.value])
 @media (max-width: 444px){
   .laptop-img{
     height: 120%;                 /* zoom (150–165% funciona bem) */
-    transform: translate(57%, -50%)
+    transform: translate(56%, -50%)
   }
 }  
 

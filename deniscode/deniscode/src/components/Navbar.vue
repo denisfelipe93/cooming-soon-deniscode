@@ -12,24 +12,44 @@ const isOpen = ref(false)
 const { locale } = useLocale()
 
 const labels = {
-  pt: { home: 'Início', projects: 'Projetos', about: 'Sobre', contact: 'Contato', aria: 'Navegação principal' },
-  en: { home: 'Home',  projects: 'Projects', about: 'About',  contact: 'Contact',  aria: 'Main navigation' }
+  pt: {
+    home: 'Início',
+    solutions: 'Soluções',
+    projects: 'Projetos',
+    about: 'Sobre',
+    contact: 'Contato',
+    aria: 'Navegação principal',
+  },
+  en: {
+    home: 'Home',
+    solutions: 'Solutions',
+    projects: 'Projects',
+    about: 'About',
+    contact: 'Contact',
+    aria: 'Main navigation',
+  },
 }
 const t = computed(() => labels[locale.value])
 
-const items = ['home', 'projects', 'about', 'contact']
-const hrefs = { home: '#home', projects: '#projects', about: '#about', contact: '#contact' }
+// ordem com Solutions logo após Home
+const items = ['home', 'solutions', 'projects', 'about', 'contact']
+const hrefs = {
+  home: '#home',
+  solutions: '#solutions',
+  projects: '#projects',
+  about: '#about',
+  contact: '#contact',
+}
 </script>
 
 <template>
-  <header class="fixed inset-x-0 top-0 z-50 bg-white/85 dark:bg-zinc-900/70 backdrop-blur border-b border-zinc-200/70 dark:border-zinc-800/70">
+  <!-- Header acima de tudo -->
+  <header class="fixed inset-x-0 top-0 z-[9999] bg-white/85 dark:bg-zinc-900/70 backdrop-blur border-b border-zinc-200/70 dark:border-zinc-800/70">
     <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" :aria-label="t.aria">
-      <!-- Logo: troca por tema (light/dark) -->
+      <!-- Logo light/dark -->
       <a href="#home" class="flex items-center" aria-label="Home">
-        <!-- light -->
         <img :src="logoLight" alt="deniscode logo" class="h-7 w-auto dark:hidden" />
-        <!-- dark -->
-        <img :src="logoDark" alt="" class="h-7 w-auto hidden dark:block" />
+        <img :src="logoDark"  alt=""                class="h-7 w-auto hidden dark:block" />
       </a>
 
       <!-- Links (desktop) -->
@@ -45,13 +65,13 @@ const hrefs = { home: '#home', projects: '#projects', about: '#about', contact: 
         </li>
       </ul>
 
-      <!-- Direita: idioma + tema -->
+      <!-- Direita: idioma + tema (desktop) -->
       <div class="hidden md:flex items-center gap-4">
         <LangSwitcher />
         <ThemeToggle />
       </div>
 
-      <!-- Botão mobile -->
+      <!-- Botão mobile (antigo) -->
       <button
         type="button"
         class="md:hidden inline-flex items-center justify-center rounded-lg border border-zinc-300 dark:border-zinc-700 p-2 text-zinc-800 dark:text-zinc-100"
@@ -69,20 +89,28 @@ const hrefs = { home: '#home', projects: '#projects', about: '#about', contact: 
       </button>
     </nav>
 
-    <!-- Drawer mobile -->
-    <div id="mobile-menu" class="md:hidden" :class="isOpen ? 'block' : 'hidden'">
-      <div class="space-y-2 py-3 px-4">
+    <!-- Drawer mobile centralizado (layout antigo) -->
+    <div
+      id="mobile-menu"
+      class="md:hidden"
+      :class="isOpen ? 'block' : 'hidden'"
+    >
+      <div class="py-3 px-4 flex flex-col items-center gap-2">
         <a
           v-for="key in items"
           :key="key"
           :href="hrefs[key]"
-          class="block rounded-lg px-3 py-2 text-[15px] font-medium text-zinc-800 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800/70"
-          @click="isOpen=false"
-        >{{ t[key] }}</a>
+          class="w-full max-w-xs text-center block rounded-lg px-3 py-2 text-[15px] font-medium
+                 text-zinc-800 hover:bg-zinc-100
+                 dark:text-zinc-100 dark:hover:bg-zinc-800/70 transition"
+          @click="isOpen = false"
+        >
+          {{ t[key] }}
+        </a>
 
-        <div class="border-t border-zinc-200 dark:border-zinc-800 my-2"></div>
+        <div class="w-full max-w-xs border-t border-zinc-200 dark:border-zinc-800 my-2"></div>
 
-        <div class="flex items-center justify-between">
+        <div class="w-full max-w-xs flex items-center justify-center gap-4">
           <LangSwitcher />
           <ThemeToggle />
         </div>
@@ -92,5 +120,5 @@ const hrefs = { home: '#home', projects: '#projects', about: '#about', contact: 
 </template>
 
 <style scoped>
-/* (removido o CSS da máscara) */
+/* nada extra – fiel ao antigo, só com Solutions e centralizado */
 </style>
