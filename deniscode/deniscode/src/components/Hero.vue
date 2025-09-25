@@ -92,7 +92,7 @@ const dict = computed(() => messages[locale.value])
 .laptop-img{
   position:absolute; top:50%; right:0;
   height:125%; width:auto; max-width:none;
-  --tx: 37%; /* deslocamento lateral base */
+  --tx: 38%; /* deslocamento lateral base */
   transform: translate(var(--tx), -50%);
 }
 

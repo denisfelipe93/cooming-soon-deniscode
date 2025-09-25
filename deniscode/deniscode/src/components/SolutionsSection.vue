@@ -14,7 +14,7 @@ const messages = {
   en: {
     pillarTitle: 'What we deliver',
     pillarSubtitle:
-      'We deliver solutions and know-how from development through deployment, focused on performance and results. No templates—everything is hand-coded.',
+      'We deliver solutions and know-how from development through deployment, focused on performance and results. No templates — everything is hand-coded.',
     cta: 'Request a proposal',
     pillars: [
       { id: 'sites', title: 'Websites & Landing Pages', desc: 'Fast, responsive, and SEO-ready sites built with modern stacks (Vue/React) and clean architecture.' },
@@ -27,7 +27,7 @@ const messages = {
   pt: {
     pillarTitle: 'O que entregamos',
     pillarSubtitle:
-      'Entregamos soluções e experiência desde o desenvolvimento ao deploy com foco em performance e resultados.',
+      'Entregamos soluções e experiência desde o desenvolvimento ao deploy, com foco em performance e resultados.',
     cta: 'Solicitar proposta',
     pillars: [
       { id: 'sites',  title: 'Websites & Landing Pages', desc: 'Sites rápidos, responsivos e prontos para SEO com stacks modernos (Vue/React) e arquitetura limpa.' },
