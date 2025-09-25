@@ -13,7 +13,7 @@ import { useLocale } from '@/composables/useLocale.js'
 // ==== [INÍCIO] Mensagens (PT/EN) =============================================
 const messages = {
   en: { kicker: 'Technologies we use', aria: { techRegion: 'Technology marquee', techRow1: 'Technology marquee row' } },
-  pt: { kicker: 'Tecnologias que utilizamos', aria: { techRegion: 'Marquee de tecnologias', techRow1: 'Linha de logos' } }
+  pt: { kicker: 'Nossas tecnologias', aria: { techRegion: 'Marquee de tecnologias', techRow1: 'Linha de logos' } }
 }
 const { locale } = useLocale()
 const dict = computed(() => messages[locale.value])
@@ -146,8 +146,8 @@ onUnmounted(() => { if (cleanup) cleanup() })
       color-mix(in oklab, var(--band-bg-light) 100%, transparent 0%) 60%,
       var(--band-bg-light) 100%),
     linear-gradient(0deg,
-      color-mix(in oklab, var(--band-bg-light) 98%, #4c2b89 2%),
-      color-mix(in oklab, var(--band-bg-light) 98%, #4c2b89 2%));
+      color-mix(in oklab, var(--band-bg-light) 98%, #BD93F9 2%),
+      color-mix(in oklab, var(--band-bg-light) 98%, #BD93F9 2%));
   color: var(--band-fg-light);
 
   /* borda/assentamento (bem sutis) */

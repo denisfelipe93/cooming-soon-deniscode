@@ -8,8 +8,8 @@ const messages = {
     brand: 'deniscode',
     nav: { solutions: 'Solutions', pricing: 'Pricing', about: 'About' },
     hero: {
-      title: 'We develop what you need to bring your business to life',
-      subtitle: 'Got an idea? Talk to us—let’s take it from paper to the web.'
+      title: 'We build exactly what you need to bring your business to life.',
+      subtitle: 'Got an idea? Talk to us—let’s take it from paper to the web. We’ve got this.'
     },
     ctaHero: 'Start building',
     ctaNav: 'Contact',
@@ -91,8 +91,8 @@ const dict = computed(() => messages[locale.value])
 
 .laptop-img{
   position:absolute; top:50%; right:0;
-  height:130%; width:auto; max-width:none;
-  --tx: 34%; /* deslocamento lateral base */
+  height:125%; width:auto; max-width:none;
+  --tx: 37%; /* deslocamento lateral base */
   transform: translate(var(--tx), -50%);
 }
 
