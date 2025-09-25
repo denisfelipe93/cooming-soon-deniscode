@@ -5,3 +5,4 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 html { scroll-behavior: smooth; }
+html, body, #app { margin: 0; padding: 0; }

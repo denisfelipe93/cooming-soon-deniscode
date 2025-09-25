@@ -8,7 +8,7 @@ const messages = {
     brand: 'deniscode',
     nav: { solutions: 'Solutions', pricing: 'Pricing', about: 'About' },
     hero: {
-      title: 'We design what you need to bring your business to life',
+      title: 'We develop what you need to bring your business to life',
       subtitle: 'Got an idea? Talk to us—let’s take it from paper to the web.'
     },
     ctaHero: 'Start building',
@@ -19,7 +19,7 @@ const messages = {
     brand: 'deniscode',
     nav: { solutions: 'Soluções', pricing: 'Preços', about: 'Sobre' },
     hero: {
-      title: 'Desenhamos o que você precisa para dar vida ao seu negócio',
+      title: 'Desevolvemos o que você precisa para dar vida ao seu negócio',
       subtitle: 'Tem uma ideia? Fale com a gente para sair do papel e ganhar vida no mundo online.'
     },
     ctaHero: 'Comece agora',
@@ -94,6 +94,7 @@ const dict = computed(() => messages[locale.value])
   height:130%; width:auto; max-width:none;
   --tx: 34%; /* deslocamento lateral base */
   transform: translate(var(--tx), -50%);
+  z-index: 500;
 }
 
 /* ===== Degradê: diminui e empurra até 720px ===== */

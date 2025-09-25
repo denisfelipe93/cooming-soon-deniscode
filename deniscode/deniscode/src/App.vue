@@ -3,6 +3,7 @@
 import { onMounted } from 'vue'
 import Navbar from '@/components/Navbar.vue'
 import Hero from '@/components/Hero.vue'
+import TechBandSection from '@/components/TechBandSection.vue'
 import SolutionsSection from '@/components/SolutionsSection.vue'
 
 // (opcional) usa o tema escuro se o sistema preferir
@@ -21,6 +22,7 @@ onMounted(() => {
   <!-- Conteúdo: padding top = altura do header (h-16) -->
   <main class="pt-16 min-h-screen font-sans antialiased bg-white text-zinc-900 dark:bg-[#0b0f14] dark:text-zinc-100">
     <Hero />
+    <TechBandSection />
     <SolutionsSection />
     <!-- (futuras seções aqui) -->
     <!-- <SolutionsSection /> -->
