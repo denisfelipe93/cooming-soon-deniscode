@@ -1,24 +1,26 @@
 <!-- ============================ TechBandSection.vue ============================
-     Full-bleed (100vw) com conteúdo alinhado ao grid do site.
-     Ajuste: mais respiro (padding vertical + altura do trilho + gaps maiores).
+     Full-bleed (100vw) com conteúdo alinhado ao grid.
+     Ajustes: radius removido, light #131313 “amaciado” com gradiente sutil,
+     mais respiro vertical, AWS removido, acessibilidade e animação.
 =============================================================================== -->
 
 <script setup>
-/* ==== [INÍCIO] Imports & i18n ============================================= */
+// ==== [INÍCIO] Imports & i18n ================================================
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useLocale } from '@/composables/useLocale.js'
-/* ==== [FIM] Imports & i18n ================================================ */
+// ==== [FIM] Imports & i18n ===================================================
 
-/* ==== [INÍCIO] Mensagens (PT/EN) ========================================== */
+// ==== [INÍCIO] Mensagens (PT/EN) =============================================
 const messages = {
   en: { kicker: 'Technologies we use', aria: { techRegion: 'Technology marquee', techRow1: 'Technology marquee row' } },
   pt: { kicker: 'Tecnologias que utilizamos', aria: { techRegion: 'Marquee de tecnologias', techRow1: 'Linha de logos' } }
 }
 const { locale } = useLocale()
 const dict = computed(() => messages[locale.value])
-/* ==== [FIM] Mensagens (PT/EN) ============================================= */
+// ==== [FIM] Mensagens (PT/EN) ================================================
 
-/* ==== [INÍCIO] Logos (Simple Icons – monocromático) ======================= */
+// ==== [INÍCIO] Logos (Simple Icons – monocromático) ==========================
+// Doc: https://cdn.simpleicons.org/<slug>/<HEX>
 const logos = [
   { name: 'Vue.js',       slug: 'vuedotjs' },
   { name: 'React',        slug: 'react' },
@@ -26,13 +28,14 @@ const logos = [
   { name: 'Node.js',      slug: 'nodedotjs' },
   { name: 'Vite',         slug: 'vite' },
   { name: 'TypeScript',   slug: 'typescript' },
-  // { name: 'AWS',       slug: 'amazonaws' }, // removido
+  // { name: 'AWS',        slug: 'amazonaws' }, // removido por solicitação
   { name: 'Google Cloud', slug: 'googlecloud' }
 ]
-const loop = computed(() => [...logos, ...logos]) // 200% → anima -50%
-/* ==== [FIM] Logos (Simple Icons – monocromático) ========================== */
+// duplica p/ loop contínuo (200% de largura → anima -50%)
+const loop = computed(() => [...logos, ...logos])
+// ==== [FIM] Logos (Simple Icons – monocromático) =============================
 
-/* ==== [INÍCIO] Pausar marquee fora do viewport e via teclado ============== */
+// ==== [INÍCIO] Pausar marquee fora do viewport e via teclado =================
 const root = ref(null)
 const isPaused = ref(false)
 let cleanup
@@ -44,25 +47,26 @@ function mountIO () {
 }
 onMounted(() => { cleanup = mountIO() })
 onUnmounted(() => { if (cleanup) cleanup() })
-/* ==== [FIM] Pausar marquee fora do viewport e via teclado ================= */
+// ==== [FIM] Pausar marquee fora do viewport e via teclado ====================
 </script>
 
 <template>
-  <!-- ==== [INÍCIO] Section full-bleed ===================================== -->
+  <!-- ==== [INÍCIO] Section full-bleed ======================================= -->
   <section id="tech-band" ref="root" class="techband">
+    <!-- Faixa 100vw (fundo e bordas) -->
     <div class="band">
-      <!-- conteúdo alinhado ao grid do site -->
+      <!-- Conteúdo alinhado ao grid do site -->
       <div class="band-content mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-        <!-- Kicker -->
+        <!-- Kicker (título) -->
         <div class="band-head">
           <p class="band-kicker">{{ dict.kicker }}</p>
         </div>
 
-        <!-- Fades colados às bordas do conteúdo -->
+        <!-- Fades colados às bordas do conteúdo alinhado -->
         <div class="fade fade-left"></div>
         <div class="fade fade-right"></div>
 
-        <!-- ===== Marquee (1 linha) ======================================= -->
+        <!-- ===== Marquee (1 linha) ========================================= -->
         <div
           class="marquee group select-none"
           :class="{ 'is-paused': isPaused }"
@@ -78,7 +82,7 @@ onUnmounted(() => { if (cleanup) cleanup() })
             aria-live="off"
           >
             <li v-for="(it, idx) in loop" :key="'l1-' + idx + it.slug" class="shrink-0">
-              <!-- Light -->
+              <!-- Light: logos brancas -->
               <img
                 :src="`https://cdn.simpleicons.org/${it.slug}/FFFFFF`"
                 :alt="it.name"
@@ -89,9 +93,9 @@ onUnmounted(() => { if (cleanup) cleanup() })
                 referrerpolicy="no-referrer"
                 onerror="this.style.display='none'"
               />
-              <!-- Dark -->
+              <!-- Dark: logos cinza-claro (um pouco mais claras pra equilibrar) -->
               <img
-                :src="`https://cdn.simpleicons.org/${it.slug}/D4D4D8`"
+                :src="`https://cdn.simpleicons.org/${it.slug}/E5E7EB`"
                 :alt="it.name"
                 class="logo-img hidden dark:inline"
                 loading="lazy"
@@ -103,49 +107,54 @@ onUnmounted(() => { if (cleanup) cleanup() })
             </li>
           </ul>
         </div>
-        <!-- ===== /Marquee ================================================= -->
+        <!-- ===== /Marquee =================================================== -->
       </div>
     </div>
   </section>
-  <!-- ==== [FIM] Section full-bleed ======================================= -->
+  <!-- ==== [FIM] Section full-bleed ========================================== -->
 </template>
 
 <style scoped>
-/* ==== [INÍCIO] Variáveis / tamanhos (com “respiro”) ======================= */
+/* ================= Vars / tamanhos ================= */
 .techband{
-  --band-bg-light: #131313;
+  /* cores base (LIGHT personalizado) */
+  --band-bg-light: #131313; /* sua cor */
   --band-fg-light: #ffffff;
+
+  /* dark mantém suave */
   --band-bg-dark:  #0b1020;
   --band-fg-dark:  #e5e7eb;
 
-  /* --radius: 1.1rem; */
-
-  /* ⚙️ respiro vertical da FAIXA (externo ao conteúdo) */
-  --outer-py: 1.75rem;       /* antes 1rem → mais respiro */
-
-  /* ⚙️ trilho e logo (um pouco maiores) */
-  --marquee-h: 6rem;         /* antes 5rem */
-  --logo-h:    4.5rem;       /* antes 4rem (~72px) */
+  /* respiro e tamanhos */
+  --outer-py: 1.75rem;  /* padding vertical externo da faixa */
+  --marquee-h: 6rem;    /* altura do trilho */
+  --logo-h:    4.5rem;  /* altura da logo (~72px) */
 }
-/* ==== [FIM] Variáveis / tamanhos ========================================== */
 
-/* ==== [INÍCIO] Faixa 100vw (gradiente + inner-shadow) ===================== */
+/* ================= Faixa 100vw (sem radius) ================= */
 .band{
   position: relative;
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
-  border-radius: var(--radius);
-  overflow: hidden;
+  overflow: hidden;            /* recorta logos/fades se encostarem */
 
-  background: linear-gradient(180deg,
-              color-mix(in oklab, var(--band-bg-light) 96%, black 4%) 0%,
-              var(--band-bg-light) 100%);
+  /* LIGHT: gradiente sutil para “amaciar” o #131313 + micro tinta da marca */
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklab, var(--band-bg-light) 96%, white 4%) 0%,
+      color-mix(in oklab, var(--band-bg-light) 100%, transparent 0%) 60%,
+      var(--band-bg-light) 100%),
+    linear-gradient(0deg,
+      color-mix(in oklab, var(--band-bg-light) 98%, #BD93F9 2%),
+      color-mix(in oklab, var(--band-bg-light) 98%, #BD93F9 2%));
   color: var(--band-fg-light);
-  border: 1px solid color-mix(in oklab, var(--band-bg-light) 80%, black 20%);
+
+  /* borda/assentamento (bem sutis) */
+  border: 1px solid color-mix(in oklab, var(--band-bg-light) 88%, white 12%);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.06),
-    inset 0 -1px 0 rgba(0,0,0,.12);
+    inset 0 1px 0 rgba(255,255,255,.05),
+    inset 0 -1px 0 rgba(0,0,0,.22);
 
   padding-top: var(--outer-py);
   padding-bottom: var(--outer-py);
@@ -162,35 +171,33 @@ onUnmounted(() => { if (cleanup) cleanup() })
     inset 0 1px 0 rgba(255,255,255,.05),
     inset 0 -1px 0 rgba(0,0,0,.25);
 }
-/* ==== [FIM] Faixa 100vw (gradiente + inner-shadow) ======================== */
 
-/* ==== [INÍCIO] Kicker / espaçamento superior ============================== */
-.band-head{ margin-bottom: .9rem; } /* antes .6rem */
+/* ================= Kicker ================= */
+.band-head{ margin-bottom: .9rem; }
 .band-kicker{
-  opacity: .68;
+  opacity: .80;                   /* ↑ mais legível no fundo escuro */
   text-transform: uppercase;
   letter-spacing: .2em;
   font-size: .78rem;
 }
-/* ==== [FIM] Kicker / espaçamento superior ================================= */
 
-/* ==== [INÍCIO] Fades colados às bordas do conteúdo ======================== */
+/* ================= Fades colados às bordas do conteúdo ================= */
 .band-content{ position: relative; }
 .fade{
   position: absolute;
   height: var(--marquee-h);
-  width: clamp(56px, 8vw, 128px); /* um pouco maiores */
-  bottom: 0; z-index: 2; pointer-events: none; opacity: .12;
+  width: clamp(56px, 8vw, 128px);
+  bottom: 0; z-index: 2; pointer-events: none;
+  opacity: .10;                   /* ↓ mais sutil */
 }
-.fade-left  { left: 0;  background: linear-gradient(90deg, rgba(0,0,0,.35), rgba(0,0,0,0)); }
-.fade-right { right: 0; background: linear-gradient(270deg, rgba(0,0,0,.35), rgba(0,0,0,0)); }
-/* ==== [FIM] Fades colados às bordas do conteúdo =========================== */
+.fade-left  { left: 0;  background: linear-gradient(90deg, rgba(0,0,0,.28), rgba(0,0,0,0)); }
+.fade-right { right: 0; background: linear-gradient(270deg, rgba(0,0,0,.28), rgba(0,0,0,0)); }
 
-/* ==== [INÍCIO] Marquee + Logos =========================================== */
+/* ================= Marquee + Logos ================= */
 .marquee{
   height: var(--marquee-h);
   display:flex; align-items:center; overflow:hidden;
-  outline: none;
+  outline: none; /* focus custom abaixo */
 }
 .logo-img{
   height: var(--logo-h);
@@ -205,7 +212,7 @@ onUnmounted(() => { if (cleanup) cleanup() })
 .marquee:focus-visible{
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--band-fg-light) 20%, transparent),
               0 0 0 5px rgba(0,0,0,.2);
-  border-radius: .5rem;
+  border-radius: .5rem; /* só pro foco visual do trilho */
 }
 :where(html.dark) .marquee:focus-visible{
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--band-fg-dark) 25%, transparent),
@@ -219,7 +226,7 @@ onUnmounted(() => { if (cleanup) cleanup() })
 .loop-l{ animation: marquee-left var(--d1, 22s) linear infinite; }
 @keyframes marquee-left{ 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
-/* responsivo: mantém respiro, reduz sutilmente tamanho no mobile */
+/* responsivo (opcional): reduz levemente no mobile */
 @media (max-width: 640px){
   .marquee{ height: 5rem; }
   .logo-img{ height: 3.75rem; }
@@ -228,5 +235,4 @@ onUnmounted(() => { if (cleanup) cleanup() })
   .loop{ animation:none !important; }
   .marquee{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
 }
-/* ==== [FIM] Marquee + Logos ============================================== */
 </style>
