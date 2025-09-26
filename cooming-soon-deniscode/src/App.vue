@@ -4,6 +4,8 @@ import BrandMark from '@/components/BrandMark.vue'
 import NewsletterSection from '@/components/NewsletterSection.vue'
 import LangSwitcher from '@/components/LangSwitcher.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
+import SocialLinks from '@/components/SocialLinks.vue'
+import FooterPremium from '@/components/FooterPremium.vue'
 </script>
 
 <template>
@@ -41,23 +43,7 @@ import ThemeToggle from '@/components/ThemeToggle.vue'
     </main>
 
     <!-- RODAPÉ com chips + sociais -->
-    <footer class="pb-10">
-      <div class="container-px mx-auto max-w-screen-xl text-center">
-        <p class="text-xs text-neutral-500 dark:text-neutral-400">
-          © {{ new Date().getFullYear() }} deniscode. Todos os direitos reservados.
-        </p>
-
-        <!-- chips e sociais próximos ao descritivo -->
-        <div class="mt-4 flex flex-wrap items-center justify-center gap-6">
-          <div class="flex gap-2">
-            <LangSwitcher class="ui-chip" />
-            <ThemeToggle class="ui-chip" />
-          </div>
-
-          <SocialLinks />
-        </div>
-      </div>
-    </footer>
+    <<FooterPremium />
   </div>
 </template>
 

@@ -40,14 +40,14 @@ async function submit() {
         required
         autocomplete="email"
         placeholder="Seu e-mail"
-        class="flex-1 rounded-xl border border-transparent
-               bg-white/70 dark:bg-white/5
-               px-4 md:px-5 py-3 md:py-4 text-base md:text-[17px]
-               outline-none text-neutral-900 dark:text-neutral-100
-               placeholder:text-neutral-400 dark:placeholder:text-neutral-500
-               focus:border-transparent focus:ring-4 ring-brand-700/25"
-        aria-invalid="true"
-        :aria-errormessage="error ? 'err' : undefined"
+        class="flex-1 rounded-xl
+              px-4 md:px-5 py-3 md:py-4 text-base md:text-[17px] outline-none
+              bg-white dark:bg-white/5
+              border border-neutral-200/70 dark:border-white/10
+              text-neutral-900 dark:text-neutral-100
+              placeholder:text-neutral-500 dark:placeholder:text-neutral-500
+              shadow-[inset_0_1px_0_rgba(255,255,255,.6)]
+              focus:border-transparent focus:ring-4 ring-brand-700/25"
       />
 
       <button
