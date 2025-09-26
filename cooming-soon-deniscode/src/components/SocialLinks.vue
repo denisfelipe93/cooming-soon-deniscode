@@ -12,11 +12,9 @@ const links = [
 
 <template>
   <nav aria-label="deniscode nas redes" class="flex items-center gap-2">
-    <a
-      v-for="l in links" :key="l.key"
-      :href="l.href" target="_blank" rel="noopener noreferrer"
-      :class="cls" :aria-label="l.name" :title="l.name"
-    >
+    <a v-for="l in links" :key="l.key"
+       :href="l.href" target="_blank" rel="noopener noreferrer"
+       :class="cls" :aria-label="l.name" :title="l.name">
       <span class="sr-only">{{ l.name }}</span>
       <component :is="icons[l.key]" class="h-5 w-5" />
     </a>

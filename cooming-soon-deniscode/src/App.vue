@@ -2,9 +2,7 @@
 import BackgroundFX from '@/components/BackgroundFX.vue'
 import BrandMark from '@/components/BrandMark.vue'
 import NewsletterSection from '@/components/NewsletterSection.vue'
-import LangSwitcher from '@/components/LangSwitcher.vue'
-import ThemeToggle from '@/components/ThemeToggle.vue'
-import SocialLinks from '@/components/SocialLinks.vue'
+import FaqSection from '@/components/FaqSection.vue'
 import FooterPremium from '@/components/FooterPremium.vue'
 </script>
 
@@ -12,7 +10,7 @@ import FooterPremium from '@/components/FooterPremium.vue'
   <BackgroundFX />
 
   <div class="relative z-10 flex min-h-screen flex-col text-neutral-900 dark:text-neutral-100">
-    <!-- topo / assinatura -->
+    <!-- Topo: marca discreta -->
     <header class="pt-8 md:pt-10">
       <div class="container-px mx-auto max-w-screen-xl flex justify-center">
         <BrandMark />
@@ -42,8 +40,10 @@ import FooterPremium from '@/components/FooterPremium.vue'
       </section>
     </main>
 
-    <!-- RODAPÉ com chips + sociais -->
-    <<FooterPremium />
+    <!-- FAQ -->
+    <!-- <FaqSection /> -->
+
+    <!-- Footer premium -->
+    <FooterPremium />
   </div>
 </template>
-

@@ -9,63 +9,40 @@
 }
 
 @layer components {
-  .ui-chip {
-    @apply rounded-xl border border-white/10 bg-white/50 dark:bg-white/5
-           px-3 py-2 text-sm text-neutral-700 dark:text-neutral-200
-           hover:bg-white/70 dark:hover:bg-white/10
-           focus:outline-none focus:ring-2 ring-brand-700/25;
-  }
   .glass-card {
     @apply rounded-2xl border border-white/10 dark:border-white/10
            bg-white/60 dark:bg-black/30 backdrop-blur-[8px]
            shadow-[0_1px_0_0_rgba(255,255,255,.06)_inset,0_12px_32px_rgba(0,0,0,.28)];
   }
-}
-
-@layer components {
-  /* botão de ícone premium (usado nas redes) */
+  .glass-bar {
+    @apply rounded-2xl border border-black/5 dark:border-white/10
+           bg-white/60 dark:bg-white/5 backdrop-blur-[8px]
+           px-3 py-2
+           shadow-[0_1px_0_0_rgba(255,255,255,.06)_inset,0_8px_24px_rgba(0,0,0,.22)];
+  }
+  .ui-chip-ghost {
+    @apply inline-flex items-center justify-center rounded-xl px-3 py-2 text-sm
+           border border-black/10 dark:border-white/15
+           bg-white/70 dark:bg-white/5
+           text-neutral-700 dark:text-neutral-200
+           hover:bg-white/80 dark:hover:bg-white/10
+           focus:outline-none focus:ring-2 ring-brand-700/25;
+  }
+  .ui-icon-ghost {
+    @apply inline-flex items-center justify-center h-9 w-9 rounded-xl
+           border border-black/10 dark:border-white/15
+           bg-white/70 dark:bg-white/5
+           text-neutral-700 dark:text-neutral-200
+           hover:bg-white/80 dark:hover:bg-white/10
+           focus:outline-none focus:ring-2 ring-brand-700/25;
+  }
+  /* caso ainda use os estilos antigos */
   .ui-icon {
     @apply inline-flex items-center justify-center
            h-10 w-10 rounded-xl
            border border-white/10 bg-white/55 dark:bg-white/5
            text-neutral-700 dark:text-neutral-200
-           transition
            hover:bg-white/75 dark:hover:bg-white/10
-           focus:outline-none focus:ring-2 ring-brand-700/25;
-  }
-}
-
-@layer components {
-  /* barra “glass” do rodapé */
-  .glass-bar {
-    @apply rounded-2xl border
-           border-black/5 dark:border-white/10
-           bg-white/60 dark:bg-white/5
-           backdrop-blur-[8px]
-           px-3 py-2
-           shadow-[0_1px_0_0_rgba(255,255,255,.06)_inset,0_8px_24px_rgba(0,0,0,.22)];
-  }
-
-  /* chips “ghost” (idioma/tema) */
-  .ui-chip-ghost {
-    @apply inline-flex items-center justify-center
-           rounded-xl px-3 py-2 text-sm
-           border border-black/10 dark:border-white/15
-           bg-white/70 dark:bg-white/5
-           text-neutral-700 dark:text-neutral-200
-           hover:bg-white/80 dark:hover:bg-white/10
-           focus:outline-none focus:ring-2 ring-brand-700/25;
-  }
-
-  /* ícone “ghost” (redes) */
-  .ui-icon-ghost {
-    @apply inline-flex items-center justify-center
-           h-9 w-9 rounded-xl
-           border border-black/10 dark:border-white/15
-           bg-white/70 dark:bg-white/5
-           text-neutral-700 dark:text-neutral-200
-           transition
-           hover:bg-white/80 dark:hover:bg-white/10
            focus:outline-none focus:ring-2 ring-brand-700/25;
   }
 }
