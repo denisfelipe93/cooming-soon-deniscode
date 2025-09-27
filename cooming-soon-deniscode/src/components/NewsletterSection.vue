@@ -12,6 +12,9 @@ const showToast = ref(false)
 
 const sendingLabel = computed(() => (locale.value === 'pt' ? 'Enviando…' : 'Sending…'))
 
+// 🔗 Seu endpoint Formspree
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xgvnokop'
+
 function resetForm() {
   email.value = ''
   success.value = false
@@ -27,12 +30,24 @@ async function submit() {
   }
   loading.value = true
   try {
-    // simulação de request
-    await new Promise(r => setTimeout(r, 900))
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: new URLSearchParams({
+        // campos enviados
+        email: email.value,
+        _subject: 'Novo inscrito — deniscode',
+        source: 'deniscode.com',
+        lang: locale.value,
+        // honeypot (manter vazio no form)
+        company: ''
+      })
+    })
+    if (!res.ok) throw new Error('bad_status_' + res.status)
     success.value = true
     showToast.value = true
     setTimeout(() => resetForm(), 3000)
-  } catch (e) {
+  } catch {
     error.value = t.value.newsletter.error
   } finally {
     loading.value = false
@@ -51,9 +66,13 @@ function hideToast() { resetForm() }
       :aria-label="locale === 'pt' ? 'Assinar newsletter' : 'Subscribe to newsletter'"
       @submit.prevent="submit"
     >
+      <!-- honeypot anti-spam (não preencher) -->
+      <input type="text" name="company" class="hidden" tabindex="-1" autocomplete="off" />
+
       <input
         v-model="email"
         type="email"
+        name="email"
         required
         autocomplete="email"
         :placeholder="t.newsletter.placeholder"
@@ -69,7 +88,7 @@ function hideToast() { resetForm() }
         aria-describedby="err"
       />
 
-      <!-- BOTÃO -->
+      <!-- Botão -->
       <button
         type="submit"
         :disabled="loading"
