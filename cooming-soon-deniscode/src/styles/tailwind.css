@@ -46,3 +46,18 @@
            focus:outline-none focus:ring-2 ring-brand-700/25;
   }
 }
+
+@layer components {
+  /* ...suas classes existentes... */
+
+  /* ícone invertido para fundo escuro (footer dark) */
+  .ui-icon-invert {
+    @apply inline-flex items-center justify-center
+           h-10 w-10 rounded-xl
+           border border-white/15 bg-white/5
+           text-neutral-200
+           transition
+           hover:bg-white/10
+           focus:outline-none focus:ring-2 ring-brand-700/35;
+  }
+}

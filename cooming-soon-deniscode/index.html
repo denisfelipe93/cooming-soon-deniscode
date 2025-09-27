@@ -2,13 +2,70 @@
 <html lang="pt-br" class="h-full">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>deniscode — em breve</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+
+    <title>deniscode</title>
+    <meta name="description" content="Estamos chegando para entregar a melhor experiência em código e desenvolvimento. Assine a newsletter para ser avisado.">
+
+    <!-- Open Graph (PT) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="deniscode" />
+    <meta property="og:title" content="deniscode" />
+    <meta property="og:description" content="Estamos chegando para entregar a melhor experiência em código e desenvolvimento. Assine a newsletter para ser avisado." />
+    <meta property="og:url" content="https://deniscode.com/" />
+    <meta property="og:image" content="https://deniscode.com/og/cover-pt.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <!-- Twitter (PT) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@deniscode" />
+    <meta name="twitter:title" content="deniscode" />
+    <meta name="twitter:description" content="Estamos chegando para entregar a melhor experiência em código e desenvolvimento. Assine a newsletter para ser avisado." />
+    <meta name="twitter:image" content="https://deniscode.com/og/cover-pt.jpg" />
+
+    <!-- hreflang/canonical -->
+    <link rel="alternate" href="https://deniscode.com/" hreflang="pt-br" />
+    <link rel="alternate" href="https://deniscode.com/" hreflang="x-default" />
+    <link rel="canonical" href="https://deniscode.com/" />
+
+    <!-- Favicons / theme-color -->
+    <link rel="icon" href="/favicon.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#0a0a0a" />
+
+    <!-- Anti-FOUC: aplica dark antes do app -->
+    <script>
+      (() => {
+        try {
+          const savedTheme = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+          document.documentElement.setAttribute('lang', 'pt-br');
+          localStorage.setItem('locale', 'pt'); // fixa PT no "em breve"
+        } catch {}
+      })();
+    </script>
+
+    <noscript>
+      <style>
+        html, body { background:#fafafa; color:#111827; }
+        @media (prefers-color-scheme: dark) {
+          html, body { background:#0a0a0a; color:#e5e7eb; }
+        }
+      </style>
+    </noscript>
   </head>
+
   <body class="h-full bg-neutral-50 text-neutral-900 dark:bg-surface-900 dark:text-neutral-100">
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
-
 </html>
-
