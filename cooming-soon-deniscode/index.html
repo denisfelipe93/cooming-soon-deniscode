@@ -1,43 +1,65 @@
 <!doctype html>
 <html lang="pt-br" class="h-full">
   <head>
+    <!-- Base -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
 
-    <title>deniscode</title>
-    <meta name="description" content="Estamos chegando para entregar a melhor experiência em código e desenvolvimento. Assine a newsletter para ser avisado.">
+    <!-- Título e descrição -->
+    <title>deniscode — em breve</title>
+    <meta name="description" content="Estamos chegando para entregar a melhor experiência em código e desenvolvimento.">
 
-    <!-- Open Graph (PT) -->
+    <!-- Canonical / hreflang -->
+    <link rel="canonical" href="https://deniscode.com/" />
+    <link rel="alternate" href="https://deniscode.com/" hreflang="pt-br" />
+    <link rel="alternate" href="https://deniscode.com/" hreflang="x-default" />
+
+    <!-- Theme color (para barras do navegador em claro/escuro) -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#0a0a0a" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="deniscode" />
     <meta property="og:title" content="deniscode" />
-    <meta property="og:description" content="Estamos chegando para entregar a melhor experiência em código e desenvolvimento. Assine a newsletter para ser avisado." />
+    <meta property="og:description" content="Estamos chegando para entregar a melhor experiência em código e desenvolvimento." />
     <meta property="og:url" content="https://deniscode.com/" />
-    <meta property="og:image" content="https://deniscode.com/og/cover-pt.jpg" />
+    <meta property="og:image" content="https://deniscode.com/og/cover.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="pt_BR" />
 
-    <!-- Twitter (PT) -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@deniscode" />
-    <meta name="twitter:title" content="deniscode" />
-    <meta name="twitter:description" content="Estamos chegando para entregar a melhor experiência em código e desenvolvimento. Assine a newsletter para ser avisado." />
-    <meta name="twitter:image" content="https://deniscode.com/og/cover-pt.jpg" />
+    <meta name="twitter:title" content="deniscode — em breve" />
+    <meta name="twitter:description" content="Estamos chegando para entregar a melhor experiência em código e desenvolvimento." />
+    <meta name="twitter:image" content="https://deniscode.com/og/cover.png" />
 
-    <!-- hreflang/canonical -->
-    <link rel="alternate" href="https://deniscode.com/" hreflang="pt-br" />
-    <link rel="alternate" href="https://deniscode.com/" hreflang="x-default" />
-    <link rel="canonical" href="https://deniscode.com/" />
+    <!-- Favicons (light/dark) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-light-32.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-dark-32.png"  media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-light-64.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-dark-64.png"  media="(prefers-color-scheme: dark)">
 
-    <!-- Favicons / theme-color -->
-    <link rel="icon" href="/favicon.png" sizes="32x32" />
+    <!-- Apple Touch + Manifest -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#0a0a0a" />
+    <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Anti-FOUC: aplica dark antes do app -->
+    <!-- JSON-LD (Organization) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "deniscode",
+      "url": "https://deniscode.com/",
+      "logo": "https://deniscode.com/icon-512.png",
+      "sameAs": ["https://www.instagram.com/deniscode"]
+    }
+    </script>
+
+    <!-- Anti-FOUC: aplica dark antes do app montar -->
     <script>
       (() => {
         try {
@@ -49,7 +71,7 @@
             document.documentElement.classList.remove('dark');
           }
           document.documentElement.setAttribute('lang', 'pt-br');
-          localStorage.setItem('locale', 'pt'); // fixa PT no "em breve"
+          localStorage.setItem('locale', 'pt');
         } catch {}
       })();
     </script>
@@ -66,6 +88,7 @@
 
   <body class="h-full bg-neutral-50 text-neutral-900 dark:bg-surface-900 dark:text-neutral-100">
     <div id="app"></div>
+    <!-- Vite entry -->
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
