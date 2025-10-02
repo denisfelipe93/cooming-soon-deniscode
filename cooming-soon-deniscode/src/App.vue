@@ -6,6 +6,7 @@ import FooterWithFaq from '@/components/FooterWithFaq.vue'
 import LangSwitcher from '@/components/LangSwitcher.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import { useLocale } from '@/composables/useLocale'
+import { RouterView } from 'vue-router'
 
 const { t } = useLocale()
 </script>
@@ -56,5 +57,6 @@ const { t } = useLocale()
 
     <!-- FOOTER + FAQ -->
     <FooterWithFaq />
+    <RouterView/>
   </div>
 </template>

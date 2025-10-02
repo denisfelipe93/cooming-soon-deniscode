@@ -20,6 +20,14 @@ const en = {
     success: 'Thanks! You’ll hear from us soon.',
     invalid: 'Enter a valid e-mail.',
     error: 'Could not send now. Please try again.',
+    // ---- Consent texts ----
+    consentMarketing:
+      'I want to receive deniscode’s newsletter by email. I can unsubscribe at any time.',
+    consentAnalytics:
+      'I agree to email personalization and performance measurement (pixels/cookies).',
+    required: 'You must accept to continue.',
+    privacyLink: 'Privacy Policy',
+    termsLink: 'Terms',
   },
 
   footer: {
@@ -35,7 +43,7 @@ const en = {
     aria: 'deniscode on social media',
     instagram: 'Instagram',
     x: 'X',
-    twitter: 'Twitter',
+    github: 'GitHub',
     youtube: 'YouTube',
   },
 
@@ -47,11 +55,11 @@ const en = {
         a: 'Yes. Leave your e-mail in the newsletter and we’ll get back as soon as possible to understand your project and send a proposal.',
       },
       {
-        q: 'On average, how long does a website take?',
-        a: 'It depends on scope and complexity. After brief and budget approval, we share a real schedule. As a reference, common projects take 14–30 business days.',
+        q: 'On average, how long does it take to build a website?',
+        a: 'It depends on scope and complexity. After the brief and budget approval, we share a realistic schedule. As a reference, typical projects take 14–30 business days.',
       },
       {
-        q: 'I only want maintenance, is it possible?',
+        q: 'I only want maintenance— is it possible?',
         a: 'Yes. If you already have a site and need improvements, performance, fixes or consulting, we do ongoing or one-off maintenance.',
       },
     ],

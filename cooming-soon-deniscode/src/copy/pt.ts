@@ -23,6 +23,14 @@ const pt = {
     success: 'Obrigado! Você receberá novidades em breve.',
     invalid: 'Digite um e-mail válido.',
     error: 'Não foi possível enviar agora. Tente novamente.',
+    // ---- Textos de consentimento ----
+    consentMarketing:
+      'Quero receber a newsletter da deniscode por e-mail. Posso cancelar a qualquer momento.',
+    consentAnalytics:
+      'Aceito a personalização e a medição de desempenho dos e-mails (pixels/cookies).',
+    required: 'Você precisa aceitar para continuar.',
+    privacyLink: 'Política de Privacidade',
+    termsLink: 'Termos',
   },
 
   footer: {
@@ -38,7 +46,7 @@ const pt = {
     aria: 'deniscode nas redes',
     instagram: 'Instagram',
     x: 'X',
-    twitter: 'Twitter',
+    github: 'GitHub',
     youtube: 'YouTube',
   },
 
@@ -46,12 +54,12 @@ const pt = {
     title: 'Perguntas frequentes',
     items: [
       {
-        q: 'Em quanto o site está em construção posso fazer um orçamento?',
+        q: 'Enquanto o site está em construção, posso solicitar um orçamento?',
         a: 'Sim. Deixe seu e-mail na newsletter e retornaremos o mais rápido possível para entender seu projeto e enviar uma proposta.',
       },
       {
-        q: 'Em média quanto tempo o site fica pronto?',
-        a: 'Depende do escopo e da complexidade. Após o briefing e a aprovação do orçamento, passamos um cronograma real. Como referência, projetos comuns levam de 14 a 30 dias úteis.',
+        q: 'Em média, quanto tempo um site fica pronto?',
+        a: 'Depende do escopo e da complexidade. Após o briefing e a aprovação do orçamento, passamos um cronograma realista. Como referência, projetos comuns levam de 14 a 30 dias úteis.',
       },
       {
         q: 'Quero apenas manutenção do meu site, é possível?',
