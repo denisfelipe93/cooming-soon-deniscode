@@ -1,6 +1,6 @@
 <!-- src/components/SocialLinks.vue -->
 <script setup lang="ts">
-import { h } from 'vue'
+import { h, computed } from 'vue'
 import type { FunctionalComponent } from 'vue'
 import { useLocale } from '@/composables/useLocale'
 
@@ -17,8 +17,8 @@ const cls =
   props.variant === 'ghost'  ? 'ui-icon-ghost'  :
                                'ui-icon'
 
-// ícones como Functional Components (funções que retornam VNode)
-type IconKey = 'ig' | 'x' | 'tw' | 'yt'
+// ===== ÍCONES =====
+type IconKey = 'ig' | 'x' | 'yt' | 'gh'
 
 const icons: Record<IconKey, FunctionalComponent> = {
   ig: () =>
@@ -31,27 +31,37 @@ const icons: Record<IconKey, FunctionalComponent> = {
     h('svg', { viewBox: '0 0 24 24', fill: 'currentColor' }, [
       h('path', { d: 'M18.146 2.25h3.037l-6.64 7.59 7.802 11.91h-6.106l-4.78-6.998-5.478 6.998H2.94l7.1-8.1L2.5 2.25h6.27l4.32 6.24 5.056-6.24Z' })
     ]),
-  tw: () =>
-    h('svg', { viewBox: '0 0 24 24', fill: 'currentColor' }, [
-      h('path', { d: 'M23 4.8c-.8.4-1.6.7-2.5.8.9-.6 1.5-1.4 1.8-2.4-.9.6-1.9 1-3 1.2A4.2 4.2 0 0 0 12 6.9c0 .3 0 .6.1.8C8.3 7.5 5 5.7 2.9 3.1a4.2 4.2 0 0 0 .6 5.6c-.7 0-1.4-.2-2-.5v.1a4.2 4.2 0 0 0 3.4 4.1c-.3.1-.7.1-1 .1-.2 0-.5 0-.7-.1a4.2 4.2 0 0 0 3.9 2.9A8.5 8.5 0 0 1 1 18.6 12 12 0 0 0 7.5 20c7.2 0 11.1-6 11.1-11.1v-.5c.8-.6 1.5-1.3 2-2.1Z' })
-    ]),
   yt: () =>
     h('svg', { viewBox: '0 0 24 24', fill: 'currentColor' }, [
       h('path', { d: 'M23.5 7.5a3 3 0 0 0-2.1-2.1C19.6 5 12 5 12 5s-7.6 0-9.4.4A3 3 0 0 0 .5 7.5 45 45 0 0 0 0 12a45 45 0 0 0 .5 4.5 3 3 0 0 0 2.1 2.1C4.4 19 12 19 12 19s7.6 0 9.4-.4a3 3 0 0 0 2.1-2.1 45 45 0 0 0 .5-4.5 45 45 0 0 0-.5-4.5ZM9.8 15.1V8.9L15.5 12l-5.7 3.1Z' })
+    ]),
+  gh: () =>
+    h('svg', { viewBox: '0 0 24 24', fill: 'currentColor' }, [
+      h('path', { d: 'M12 .5a11.5 11.5 0 0 0-3.64 22.43c.58.11.79-.25.79-.56v-2.1c-3.2.7-3.88-1.54-3.88-1.54-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.79 2.74 1.27 3.41.97.11-.76.41-1.27.75-1.56-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.28 1.2-3.08-.12-.3-.52-1.52.11-3.17 0 0 .98-.31 3.21 1.18a11.1 11.1 0 0 1 5.84 0c2.23-1.49 3.21-1.18 3.21-1.18.63 1.65.24 2.87.12 3.17.75.8 1.2 1.82 1.2 3.08 0 4.43-2.7 5.41-5.27 5.69.42.37.8 1.1.8 2.22v3.29c0 .31.21.68.8.56A11.5 11.5 0 0 0 12 .5Z' })
     ])
 }
 
-// links reativos ao idioma
+// ===== RÓTULOS (sem 'any') =====
+interface SocialLabels { instagram: string; x: string; youtube: string; github: string }
+const socialLabels = computed<SocialLabels>(() => ({
+  instagram: t.value.social.instagram,
+  x: t.value.social.x,
+  youtube: t.value.social.youtube,
+  github: 'GitHub' // adicione social.github no i18n se quiser traduzir
+}))
+const ariaLabel = computed(() => t.value.social.aria ?? 'Redes sociais')
+
+// ===== LINKS OFICIAIS (X mantido, Twitter removido) =====
 const links: Array<{ name: () => string; href: string; key: IconKey }> = [
-  { name: () => t.value.social.instagram, href: 'https://instagram.com/deniscode', key: 'ig' },
-  { name: () => t.value.social.x,         href: 'https://x.com/deniscode',        key: 'x'  },
-  { name: () => t.value.social.twitter,   href: 'https://twitter.com/deniscode',  key: 'tw' },
-  { name: () => t.value.social.youtube,   href: 'https://youtube.com/@deniscode', key: 'yt' }
+  { name: () => socialLabels.value.instagram, href: 'https://www.instagram.com/denisc0de/',   key: 'ig' },
+  { name: () => socialLabels.value.x,         href: 'https://x.com/DenisCode_',               key: 'x'  },
+  { name: () => socialLabels.value.youtube,   href: 'https://www.youtube.com/@odeniscode',    key: 'yt' },
+  { name: () => socialLabels.value.github,    href: 'https://github.com/denisfelipe93',       key: 'gh' }
 ]
 </script>
 
 <template>
-  <nav :aria-label="t.social.aria" class="flex items-center gap-2">
+  <nav :aria-label="ariaLabel" class="flex items-center gap-2">
     <a
       v-for="l in links"
       :key="l.key"
