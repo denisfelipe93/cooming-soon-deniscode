@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useLocale } from '@/composables/useLocale'
+import { usePolicyModal } from '@/composables/usePolicyModal' // abre modal de políticas
 
 const { t, locale } = useLocale()
+const { show } = usePolicyModal()
 
-// Versão/data da política (ajuste quando mudar a política)
+// Versão/data da política (ajuste quando atualizar sua política)
 const POLICY_VERSION = '1.0'
 const POLICY_DATE    = '2025-10-02'
 
@@ -38,7 +40,6 @@ function resetForm() {
 }
 
 function dismissSuccess() {
-  // esconde a faixa de sucesso e limpa tudo
   resetForm()
 }
 
@@ -58,7 +59,7 @@ async function submit() {
 
   loading.value = true
 
-  // timeout de 10s para evitar "travado no enviando…"
+  // timeout de 10s para evitar ficar preso em "Enviando…"
   const ctrl = new AbortController()
   const timer = setTimeout(() => ctrl.abort('timeout'), 10000)
 
@@ -91,10 +92,9 @@ async function submit() {
     // sucesso: mostra a faixa para TODOS os tamanhos
     success.value = true
     showSuccess.value = true
-    // opcional: limpa só o campo de e-mail para o usuário ver que enviou
+    // opcional: limpa só o campo de e-mail para indicar envio concluído
     email.value = ''
   } catch (e: any) {
-    // falha por timeout costuma ser bloqueador/extensão/rede
     if (e?.name === 'AbortError' || String(e).includes('timeout')) {
       error.value = (locale.value === 'pt')
         ? 'Tempo esgotado ao enviar. Verifique conexão/bloqueadores e tente novamente.'
@@ -169,14 +169,14 @@ async function submit() {
               : 'I want to receive deniscode’s newsletter by email. I can unsubscribe at any time.') }}
           </label>
           <p class="mt-1">
-            <!-- pode trocar por <a target="_blank"> se preferir abrir nova aba -->
-            <router-link to="/privacy" class="underline" @click.stop>
+            <!-- abre o modal -->
+            <button type="button" class="underline hover:no-underline" @click.stop="show('privacy')">
               {{ t.newsletter.privacyLink || (locale === 'pt' ? 'Política de Privacidade' : 'Privacy Policy') }}
-            </router-link>
+            </button>
             ·
-            <router-link to="/terms" class="underline" @click.stop>
+            <button type="button" class="underline hover:no-underline" @click.stop="show('terms')">
               {{ t.newsletter.termsLink || (locale === 'pt' ? 'Termos' : 'Terms') }}
-            </router-link>
+            </button>
           </p>
         </div>
       </div>
@@ -196,7 +196,7 @@ async function submit() {
         {{ error }}
       </p>
 
-      <!-- ✅ SUCESSO (mesma UI para mobile e desktop) -->
+      <!-- sucesso (mesma UI para todos) -->
       <div
         v-if="success && showSuccess"
         class="mx-auto max-w-[640px] mt-3"

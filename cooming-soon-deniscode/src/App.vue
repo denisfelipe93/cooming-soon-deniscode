@@ -5,8 +5,8 @@ import NewsletterSection from '@/components/NewsletterSection.vue'
 import FooterWithFaq from '@/components/FooterWithFaq.vue'
 import LangSwitcher from '@/components/LangSwitcher.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
+import PolicyModal from '@/components/PolicyModal.vue'
 import { useLocale } from '@/composables/useLocale'
-import { RouterView } from 'vue-router'
 
 const { t } = useLocale()
 </script>
@@ -18,9 +18,7 @@ const { t } = useLocale()
     <!-- HEADER -->
     <header class="pt-6 md:pt-8">
       <div class="container-px mx-auto max-w-screen-xl flex items-center justify-between">
-        <!-- esquerda -->
         <BrandMark />
-        <!-- direita -->
         <div class="flex items-center gap-2">
           <LangSwitcher class="ui-chip-ghost" />
           <ThemeToggle class="ui-chip-ghost" />
@@ -28,7 +26,6 @@ const { t } = useLocale()
       </div>
     </header>
 
-    <!-- ESPAÇAMENTO APENAS APÓS O HEADER -->
     <div class="h-6 md:h-8"></div>
 
     <!-- HERO -->
@@ -57,6 +54,8 @@ const { t } = useLocale()
 
     <!-- FOOTER + FAQ -->
     <FooterWithFaq />
-    <RouterView/>
   </div>
+
+  <!-- Modal de políticas (teleport to body) -->
+  <PolicyModal />
 </template>
